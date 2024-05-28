@@ -9,6 +9,7 @@ app.use(express.json())
 
 const {scrapeNews} = require('./trr');
 
+
 const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
 
@@ -87,6 +88,34 @@ async function getSummaries(req, res){
 }
 
 
-getSummaries()
+// getSummaries()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+putIntoMongoDB()
+
 
 module.exports = {getSummaries}
