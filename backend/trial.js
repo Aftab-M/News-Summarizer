@@ -75,9 +75,10 @@ async function getEventsNews() {
 
 
 async function getAllNews(){
-  // await getSportsNews();
+  await getSportsNews();
   await getPoliticalNews();
-  // await getEventsNews();
+  await getEventsNews();
+  // fetch news for each of the category
 }
 
 
