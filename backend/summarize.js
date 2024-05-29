@@ -8,6 +8,7 @@ app.use(cors())
 app.use(express.json())
 
 const {scrapeNews} = require('./trr');
+const {getNews, addNews} = require('./mongo')
 
 
 const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
@@ -58,17 +59,19 @@ async function getSummaries(req, res){
 
         console.log(newslist[i].desc.length)
 
-        if ((i + 1) % 3 === 0) {
-            console.log(`Waiting for 1 minute before processing item ${i+1}`);
-            await delay(4000); // Wait for 1 minute
-        }
+        // if ((i + 1) % 3 === 0) {
+        //     console.log(`Waiting for 1 minute before processing item ${i+1}`);
+        //     await delay(4000); // Wait for 1 minute
+        // }
 
         // const result = await model.generateContent(prompt);
         // const resp = await result.response;
 
 
         // console.log(resp.text())
-
+        
+        if((parseInt(i)+1)%2==0){console.log('Waiting'); await delay(5000);}
+        console.log(parseInt(i)+1)
         // await delay(65000);
 
     }   // for news
@@ -84,11 +87,11 @@ async function getSummaries(req, res){
     // res.send(resp.text());
 
     // console.log(resp.text());
-
+    process.exit()
 }
 
 
-// getSummaries()
+getSummaries()
 
 
 
@@ -115,7 +118,6 @@ async function getSummaries(req, res){
 
 
 
-putIntoMongoDB()
 
 
 module.exports = {getSummaries}

@@ -1,25 +1,84 @@
-const puppeteer = require('puppeteer');
+const axios = require('axios');
+const cheerio = require('cheerio');
 
-(async () => {
-  const browser = await puppeteer.launch();
-  const page = await browser.newPage();
-  await page.goto('https://timesofindia.indiatimes.com/');
+// const url = 'https://timesofindia.indiatimes.com/sports';
 
-  // Wait for the news list to load, adjust the selector accordingly
-  await page.waitForSelector('/html/body/div[2]/div/div[3]/div[2]/div[4]/div[4]/div[2]/div', { timeout: 10000 });
+async function fetchPage(url) {
+    const response = await axios.get(url);
+    return response.data;
+}
 
-  // Extract news headlines
-  const headlines = await page.evaluate(() => {
-    const newsList = document.querySelectorAll('/html/body/div[2]/div/div[3]/div[2]/div[4]/div[4]/div[2]/div');
-    const headlinesArray = [];
-    newsList.forEach(newsItem => {
-    //   const headline = newsItem.textContent.trim();
-    //   headlinesArray.push(headline);
+async function getNewsLinks(url) {
+    const html = await fetchPage(url);
+    const $ = cheerio.load(html);
+    
+    const newslinks = [];
+    $('div.iN5CR').each((index, element) => {
+        const linkElement = $(element).find('a.lfn2e');
+        if (linkElement.length && linkElement.attr('href').includes('.cms')) {
+            newslinks.push(linkElement.attr('href'));
+        }
     });
-    return newsList;
-  });
 
-  console.log(headlines);
+    return newslinks;
+}
 
-  await browser.close();
-})();
+async function getTitleAndDescription(newslinks) {
+    const newses = [];
+    
+    for (const link of newslinks) {
+        const fullLink = `${link}`;
+        const html = await fetchPage(fullLink);
+        const $ = cheerio.load(html);
+
+        const title = $('h1.HNMDR').text();
+        const desc = $('div._s30J.clearfix').text();
+        
+        if (title && desc) {
+            newses.push({ title: title.trim(), desc: desc.trim() });
+        }
+    }
+
+    return newses;
+}
+
+async function getSportsNews() {
+  console.log('\n\n------------------------------------> Sports news are : ')
+    const newslinks = await getNewsLinks('https://timesofindia.indiatimes.com/sports');
+    const newses = await getTitleAndDescription(newslinks);
+    // console.log(newses);
+    for (var i in newses){
+      console.log(newses[i].title);
+    }
+}
+
+async function getPoliticalNews() {
+  console.log('\n\n------------------------------------> Political news are : ')
+  const newslinks = await getNewsLinks('https://timesofindia.indiatimes.com/elections/news');
+  const newses = await getTitleAndDescription(newslinks);
+  // console.log(newses);
+  for (var i in newses){
+    console.log(newses[i].title);
+  }
+}
+
+async function getEventsNews() {
+
+  console.log('\n\n------------------------------------> Events news are : ')
+  const newslinks = await getNewsLinks('https://timesofindia.indiatimes.com/technology');
+  const newses = await getTitleAndDescription(newslinks);
+  // console.log(newses);
+  for (var i in newses){
+    console.log(newses[i].title);
+  }
+}
+
+
+async function getAllNews(){
+  // await getSportsNews();
+  await getPoliticalNews();
+  // await getEventsNews();
+}
+
+
+getAllNews()
