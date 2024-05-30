@@ -48,7 +48,7 @@ async function getSportsNews() {
     const newses = await getTitleAndDescription(newslinks);
     // console.log(newses);
     for (var i in newses){
-      console.log(newses[i].title);
+      console.log(newses[i].desc);
     }
 }
 
@@ -76,8 +76,8 @@ async function getEventsNews() {
 
 async function getAllNews(){
   await getSportsNews();
-  await getPoliticalNews();
-  await getEventsNews();
+  // await getPoliticalNews();
+  // await getEventsNews();
   // fetch news for each of the category
 }
 
