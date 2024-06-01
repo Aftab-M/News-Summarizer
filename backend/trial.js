@@ -41,6 +41,11 @@ async function getTitleAndDescription(newslinks) {
         if (title && desc) {
             newses.push({ title: title.trim(), desc: desc.trim() });
         }
+
+
+        
+
+
     }
 
     return newses;
