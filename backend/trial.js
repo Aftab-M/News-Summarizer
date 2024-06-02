@@ -157,6 +157,56 @@ async function getInternationalSportsNews() {
 
 
 
+async function getInternationalNews() {
+  const url = 'https://www.bbc.com/sport';
+
+  try {
+      const response = await axios.get(url);
+      const $ = cheerio.load(response.data);
+
+      const allNews = $('div.ssrcss-1va2pun-UncontainedPromoWrapper.eqfxz1e5');
+
+      let newsLinks = [];
+
+      allNews.each((index, element) => {
+          const oneElement = $(element).find('a.ssrcss-zmz0hi-PromoLink.exn3ah91');
+          const title = $(element).find('p.ssrcss-1nzemmm-PromoHeadline.exn3ah96').text();
+
+          if (oneElement && oneElement.attr('href')) {
+              if (title && !oneElement.attr('href').includes('/sounds/')) {
+                  newsLinks.push({
+                      linkk: oneElement.attr('href'),
+                      titlee: title
+                  });
+              }
+          }
+      });
+
+      let newses = [];
+
+      for (const news of newsLinks) {
+          const linkResponse = await axios.get('https://www.bbc.com' + news.linkk);
+          const $$ = cheerio.load(linkResponse.data);
+
+          const desc = $$('div.ssrcss-uf6wea-RichTextComponentWrapper.ep2nwvo0').text();
+
+          if (desc) {
+              newses.push({
+                  title: news.titlee,
+                  desc: desc
+              });
+          }
+      }
+      console.log(newses)
+      return newses;
+  } catch (error) {
+      console.error('Error fetching news:', error);
+      return [];
+  }
+}
+
+
+
 
 
 
@@ -192,7 +242,10 @@ async function getEventsNews() {
 
 async function getAllNews(){
   // await getIndianSportsNews();
-  await getInternationalSportsNews()
+  // await getInternationalSportsNews()
+  
+  await getInternationalNews()
+
   // await getPoliticalNews();
   // await getEventsNews();
   // fetch news for each of the category
