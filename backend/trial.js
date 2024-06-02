@@ -79,24 +79,93 @@ async function getIndianSportsNews() {
     
     for (const link of newslinks) {
         const fullLink = `${link}`;
-        const html = await fetchPage(fullLink);
-        const $ = cheerio.load(html);
+        const htmll = await fetchPage(fullLink);
+        const $_ = cheerio.load(htmll);
 
-        const title = $('h1.sp-ttl').text();
-        const desc = $('div._s30J.clearfix').text();
+        const title = $_('h1.sp-ttl').text();
+        const desc = $_('div._s30J.clearfix').text();
         
         if (title && desc) {
             newses.push({ title: title.trim(), desc: desc.trim() });
         }
+}
+
+// console.log(newses);
+for (var i in newses){
+  console.log(newses[i].title);
+}
+console.log(newslinks)
+
+}
 
 
-    console.log(newses);
-    for (var i in newses){
-      console.log(newses[i].title);
-    }
-    console.log(newslinks)
+
+
+
+async function getInternationalSportsNews() {
+  console.log('\n\n------------------------------------> Sports news are : ')
+
+  const html = await fetchPage('https://www.bbc.com/sport');
+    const $ = cheerio.load(html);
+  // console.log($('div.ssrcss-1va2pun-UncontainedPromoWrapper eqfxz1e5'))
+
+
+    // const newslinks = await getNewsLinks('https://sports.ndtv.com/');
+    
+    const newslinks = [];
+    $('div.ssrcss-1va2pun-UncontainedPromoWrapper eqfxz1e5').each((index, element) => {
+        // const linkElement = $(element).find('a.lfn2e');
+        const linkElement = $(element).find('li.ssrcss-zmz0hi-PromoLink');
+        console.log(linkElement)
+        // if (linkElement.length && linkElement.attr('href').includes('https://sports.ndtv.com')) {
+        //     newslinks.push(linkElement.attr('href'));
+        // }
+    });
+
+
+    
+    // const newses = await getTitleAndDescription(newslinks);
+
+//     const newses = [];
+    
+//     for (const link of newslinks) {
+//         const fullLink = `${link}`;
+//         const htmll = await fetchPage(fullLink);
+//         const $_ = cheerio.load(htmll);
+
+//         const title = $_('h1.sp-ttl').text();
+//         const desc = $_('div._s30J.clearfix').text();
+        
+//         if (title && desc) {
+//             newses.push({ title: title.trim(), desc: desc.trim() });
+//         }
+// }
+
+// console.log(newses);
+// for (var i in newses){
+//   console.log(newses[i].title);
+// }
+// console.log(newslinks)
+
 }
-}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 async function getPoliticalNews() {
@@ -122,7 +191,8 @@ async function getEventsNews() {
 
 
 async function getAllNews(){
-  await getIndianSportsNews();
+  // await getIndianSportsNews();
+  await getInternationalSportsNews()
   // await getPoliticalNews();
   // await getEventsNews();
   // fetch news for each of the category
