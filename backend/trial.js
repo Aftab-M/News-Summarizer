@@ -53,14 +53,51 @@ async function getTitleAndDescription(newslinks) {
 
 async function getIndianSportsNews() {
   console.log('\n\n------------------------------------> Sports news are : ')
-    const newslinks = await getNewsLinks('https://sports.ndtv.com/');
-    const newses = await getTitleAndDescription(newslinks);
+
+  const html = await fetchPage('https://sports.ndtv.com/');
+    const $ = cheerio.load(html);
+
+
+
+    // const newslinks = await getNewsLinks('https://sports.ndtv.com/');
+    
+    const newslinks = [];
+    $('div.vjl-md-12').each((index, element) => {
+        // const linkElement = $(element).find('a.lfn2e');
+        const linkElement = $(element).find('a.crd_lnk');
+        // console.log(linkElement)
+        if (linkElement.length && linkElement.attr('href').includes('https://sports.ndtv.com')) {
+            newslinks.push(linkElement.attr('href'));
+        }
+    });
+
+
+    
+    // const newses = await getTitleAndDescription(newslinks);
+
+    const newses = [];
+    
+    for (const link of newslinks) {
+        const fullLink = `${link}`;
+        const html = await fetchPage(fullLink);
+        const $ = cheerio.load(html);
+
+        const title = $('h1.sp-ttl').text();
+        const desc = $('div._s30J.clearfix').text();
+        
+        if (title && desc) {
+            newses.push({ title: title.trim(), desc: desc.trim() });
+        }
+
+
     console.log(newses);
     for (var i in newses){
       console.log(newses[i].title);
     }
     console.log(newslinks)
 }
+}
+
 
 async function getPoliticalNews() {
   console.log('\n\n------------------------------------> Political news are : ')
