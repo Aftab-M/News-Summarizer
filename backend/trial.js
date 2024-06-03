@@ -168,14 +168,88 @@ async function getInternationalSportsNews() {
 
 
 async function getPoliticalNews() {
-  console.log('\n\n------------------------------------> Political news are : ')
-  const newslinks = await getNewsLinks('https://timesofindia.indiatimes.com/elections/news');
-  const newses = await getTitleAndDescription(newslinks);
-  // console.log(newses);
-  for (var i in newses){
-    console.log(newses[i].title);
+  const url = 'https://www.bbc.com/news';
+
+  try {
+      const response = await axios.get(url);
+      const $ = cheerio.load(response.data);
+
+      const allNews = $('div.sc-52c2b1e7-2');
+      // console.log(allNews)
+      let newsLinks = [];
+
+      allNews.each((index, element) => {
+          const oneElement = $(element).find('a.sc-2e6baa30-0');
+          const title = $(element).find('h2.sc-4fedabc7-3').text();
+
+          // console.log(oneElement.attr('href'))
+          // console.log("\n\n"+title)
+          if (oneElement && oneElement.attr('href')) {
+              if (title && ) {
+                  newsLinks.push({
+                      linkk: oneElement.attr('href'),
+                      titlee: title
+                  });
+              }
+          }
+      });
+
+      console.log(newsLinks)
+      let newses = [];
+
+      // for (const news of newsLinks) {
+      //     const linkResponse = await axios.get('https://www.bbc.com' + news.linkk);
+      //     const $$ = cheerio.load(linkResponse.data);
+
+      //     const desc = $$('div.ssrcss-uf6wea-RichTextComponentWrapper.ep2nwvo0').text();
+
+      //     if (desc) {
+      //         newses.push({
+      //             title: news.titlee,
+      //             desc: desc
+      //         });
+      //     }
+      // }
+      // console.log(newses)
+      // return newses;
+  } catch (error) {
+      console.error('Error fetching news:', error);
+      return [];
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// async function getPoliticalNews() {
+//   console.log('\n\n------------------------------------> Political news are : ')
+//   const newslinks = await getNewsLinks('https://timesofindia.indiatimes.com/elections/news');
+//   const newses = await getTitleAndDescription(newslinks);
+//   // console.log(newses);
+//   for (var i in newses){
+//     console.log(newses[i].title);
+//   }
+// }
 
 async function getEventsNews() {
 
@@ -192,9 +266,9 @@ async function getEventsNews() {
 async function getAllNews(){
   // await getIndianSportsNews();
   
-  await getInternationalSportsNews()
+  // await getInternationalSportsNews()
 
-  // await getPoliticalNews();
+  await getPoliticalNews();
   // await getEventsNews();
   // fetch news for each of the category
 }
