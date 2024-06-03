@@ -185,33 +185,33 @@ async function getPoliticalNews() {
           // console.log(oneElement.attr('href'))
           // console.log("\n\n"+title)
           if (oneElement && oneElement.attr('href')) {
-              if (title && ) {
+                if(!oneElement.attr('href').includes('https://')){
                   newsLinks.push({
                       linkk: oneElement.attr('href'),
                       titlee: title
                   });
-              }
+          }
           }
       });
 
-      console.log(newsLinks)
+      // console.log(newsLinks)
       let newses = [];
 
-      // for (const news of newsLinks) {
-      //     const linkResponse = await axios.get('https://www.bbc.com' + news.linkk);
-      //     const $$ = cheerio.load(linkResponse.data);
+      for (const news of newsLinks) {
+          const linkResponse = await axios.get('https://www.bbc.com' + news.linkk);
+          const $$ = cheerio.load(linkResponse.data);
 
-      //     const desc = $$('div.ssrcss-uf6wea-RichTextComponentWrapper.ep2nwvo0').text();
+          const desc = $$('p.sc-eb7bd5f6-0').text();
 
-      //     if (desc) {
-      //         newses.push({
-      //             title: news.titlee,
-      //             desc: desc
-      //         });
-      //     }
-      // }
-      // console.log(newses)
-      // return newses;
+          if (desc) {
+              newses.push({
+                  title: news.titlee,
+                  desc: desc
+              });
+          }
+      }
+      console.log(newses)
+      return newses;
   } catch (error) {
       console.error('Error fetching news:', error);
       return [];
@@ -225,6 +225,74 @@ async function getPoliticalNews() {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+async function getIndiaNews() {
+  const url = 'https://timesofindia.indiatimes.com/';
+
+  try {
+      const response = await axios.get(url);
+      const $ = cheerio.load(response.data);
+
+      const mainDiv = $('div.contentwrapper');
+
+      const neo = $(mainDiv).find('div.nEjlO')
+      const allNews = $(neo).find('div.col_l_6')
+      // const allNews = $('div.');
+      // console.log(allNews)
+      let newsLinks = [];
+      // console.log(allNews)
+
+      allNews.each((index, element) => {
+          // const oneDiv = $(element).find('div.col_l_6');
+          const oneElement = $(element).find('a.Hn2z7');
+          const title = $(element).find('figcaption').text();
+
+          // console.log(oneElement.attr('href'))
+          // console.log("\n\n"+"Title"+title)
+          if (oneElement.attr('href') && title!=undefined) {
+                if(oneElement.attr('href').includes('https://')){
+                  newsLinks.push({
+                      linkk: oneElement.attr('href'),
+                      titlee: title
+                  });
+          }
+          }
+      });
+
+      newsLinks.splice(0, 10)
+      console.log(newsLinks.length)
+      let newses = [];
+
+      for (const news of newsLinks) {
+          const linkResponse = await axios.get(news.linkk);
+          const $$ = cheerio.load(linkResponse.data);
+
+          const desc = $$('div._s30J').text();
+
+          if (desc) {
+              newses.push({
+                  title: news.titlee,
+                  desc: desc
+              });
+          }
+      }
+      console.log(newses.length)
+      return newses;
+  } catch (error) {
+      console.error('Error fetching news:', error);
+      return [];
+  }
+}
 
 
 
@@ -264,11 +332,14 @@ async function getEventsNews() {
 
 
 async function getAllNews(){
-  // await getIndianSportsNews();
+  
   
   // await getInternationalSportsNews()
 
   await getPoliticalNews();
+  
+  // await getIndiaNews();
+
   // await getEventsNews();
   // fetch news for each of the category
 }
