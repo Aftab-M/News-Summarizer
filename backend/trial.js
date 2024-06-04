@@ -1,8 +1,18 @@
 const axios = require('axios');
 const cheerio = require('cheerio');
 // const { summarize } = require('node-summary');
+const {getSummary} = require('./summarize')
 
 // const url = 'https://timesofindia.indiatimes.com/sports';
+
+
+
+const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+
+
+
+
+
 
 async function fetchPage(url) {
     const response = await axios.get(url);
@@ -43,14 +53,27 @@ async function getTitleAndDescription(newslinks) {
             newses.push({ title: title.trim(), desc: desc.trim() });
         }
 
-
-        
-
-
     }
 
     return newses;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 async function getIndianSportsNews() {
   console.log('\n\n------------------------------------> Sports news are : ')
@@ -151,7 +174,19 @@ async function getInternationalSportsNews() {
       // console.log(newses.length+" news from getInternationalSportsNews()")
       // console.log(newses)
       
-      summarizeNews(newses);
+      // summarizeNews(newses);
+
+      newses = newses.splice(2, 5)
+
+      for(var i in newses){
+        console.log('Title  : '+newses[i].title+' with desc length : '+newses[i].desc.length)
+
+          console.log('Summarizing the news : '+newses[i].title)
+          getSummary(newses[i].title, newses[i].desc, newses[i].link);
+          await delay(4000);
+
+
+      }
       
       
       
@@ -361,7 +396,7 @@ async function getEventsNews() {
 
 async function getAllNews(){
   
-  // await getInternationalSportsNews()
+  await getInternationalSportsNews()
 
   // await getPoliticalNews();
   
@@ -370,25 +405,25 @@ async function getAllNews(){
 }
 
 
-// getAllNews()
+getAllNews()
 
 
 
-function summarizeAllNews(){
-  const intNews = getInternationalSportsNews();
-  // const polNews = getPoliticalNews();
-  // const indNews = getIndiaNews();
+// function summarizeAllNews(){
+//   const intNews = getInternationalSportsNews();
+//   // const polNews = getPoliticalNews();
+//   // const indNews = getIndiaNews();
 
 
-  for(var i in intNews){
-    console.log(intNews[i].title);
-  }
+//   for(var i in intNews){
+//     console.log(intNews[i].title);
+//   }
 
 
-}
+// }
 
 
-summarizeAllNews()
+// summarizeAllNews()
 
 
 

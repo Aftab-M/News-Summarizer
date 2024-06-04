@@ -24,13 +24,27 @@ async function getNews(){
 }
 
 
-async function addNews(newsTitle, newsLink, newsSummary){
-    var result = await News.insertMany({'newsTitle': newsTitle, 'newsLink': newsLink, 'newsSummary': newsSummary})
+async function addNews(newsTitle, newsSummary, newsLink){
+    var now = new Date()
+    var date = now.getDate() + '-' + parseInt(parseInt(now.getMonth())+1) + '-' + now.getFullYear()
+    var time = now.getHours() + '-' + now.getMinutes() + '-' + now.getMilliseconds()
+
+    var result = await News.insertMany({'newsTitle': newsTitle, 'newsLink': newsLink, 'newsSummary': newsSummary, 'newsDate': date, 'newsTime': time})
     .then((res)=> console.log('Inserted successfully'))
     .catch((err)=> console.log('Got error : ',err))
 }
 
 
+function checkDateTime(){
+    var now = new Date()
+    var date = now.getDate() + '-' + parseInt(parseInt(now.getMonth())+1) + '-' + now.getFullYear()
+    var time = now.getHours() + '-' + now.getMinutes() + '-' + now.getMilliseconds()
+    console.log(date)
+    process.exit()
+}
+
+
+// checkDateTime()
 
 
 
