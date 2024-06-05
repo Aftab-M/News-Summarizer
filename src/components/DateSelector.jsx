@@ -23,7 +23,7 @@ const DateSelector = ({ setDate }) => {
 
 
   return (
-    <div className="mb-4">
+    <div className="">
       <input 
         type="date" 
         value={selectedDate}

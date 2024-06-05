@@ -73,11 +73,24 @@ const MainPage = () => {
       <div className="container mx-auto p-4 px-14">
         <div className='flex flex-wrap items-center justify-between mb-6'>
             {/* <div className='text-xl text-white'>All News</div> */}
-            <div className='flex justify-between w-80 '>
+          
+          {(screen.width<400)?
+                        <div className=''>
+                            <select
+                              className="p-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-shadow"
+                              onChange={(e) => handleChipClick(e.target.value)}
+                            >
+                              <option value="General">General</option>
+                              <option value="Politics">Politics</option>
+                              <option value="Sports">Sports</option>
+                            </select>
+                        </div>
+            :<div className={`flex gap-3 flex-wrap ${screen.width<400?'justify-center':'justify-between'}  w-80  mb-4`}>
           <Chip label="General" selected={selectedChip === 'General'} onClick={() => handleChipClick('General')} />
           <Chip label="Politics" selected={selectedChip === 'Politics'} onClick={() => handleChipClick('Politics')} />
           <Chip label="Sports" selected={selectedChip === 'Sports'} onClick={() => handleChipClick('Sports')} />
-        </div>
+        </div>}  
+        
         <div className="flex flex-wrap space-x-6 items-center justify-end">
           <DateSelector setDate={setDate} />
           {/* <CategorySelector setCategory={setCategory} /> */}

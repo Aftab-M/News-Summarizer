@@ -46,8 +46,8 @@ async function getSummary(title, desc, link){
     // for(var i in newslist){
 
         const prompt = `Im giving you a news article. The title is : "${title}", and the description is : "${desc}"
-                        I want you to summarize the title and the description in short. The summary should be at least 2 lines, and at most 5 lines. Act like you are giving this news directly to the viewers. The viewers do not have the description, but it is your job to provide the description. Do not let the viewers feel like you are summarizing it from a description. 
-                        The summary should summarize all the points given in the news. Even if you do not know the context of the news, still provide the summary based on description.
+                        I want you to summarize the title and the description in short. The summary should be at least 1 line, and at most 2 lines. Act like you are giving this news directly to the viewers. The viewers do not have the description, but it is your job to provide the description. Do not let the viewers feel like you are summarizing it from a description. 
+                        Do not use phrases like 'This article is about', 'This news is about', or anything similar. The summary should summarize all the points given in the news. Even if you do not know the context of the news, still provide the summary based on description.
                         Do not generate anything else other than the summary.
         `;
         console.log('\nayyyyyy')
