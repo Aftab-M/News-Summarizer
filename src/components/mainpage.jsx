@@ -29,7 +29,7 @@ const MainPage = () => {
       <div className="container mx-auto p-4 px-14">
         <div className='flex items-center justify-between mb-6'>
             <div className='text-xl text-white'>All News</div>
-        <div className="flex space-x-6 items-center justify-end">
+        <div className="flex flex-wrap space-x-6 items-center justify-end">
           <DateSelector setDate={setDate} />
           <CategorySelector setCategory={setCategory} />
         </div>
