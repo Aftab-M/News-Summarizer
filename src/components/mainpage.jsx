@@ -26,7 +26,7 @@ const MainPage = () => {
   return (
     <div className="min-h-screen bg-black">
       <Header setLanguage={setLanguage} />
-      <div className="container mx-auto p-4">
+      <div className="container mx-auto p-4 px-14">
         <div className='flex items-center justify-between mb-6'>
             <div className='text-xl text-white'>All News</div>
         <div className="flex space-x-6 items-center justify-end">
