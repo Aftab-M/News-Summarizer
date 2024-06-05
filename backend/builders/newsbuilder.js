@@ -23,8 +23,8 @@ async function getUser(req, res){
         // })
         // .catch((err)=>{console.log('NODE ERROR : '+err)})
         
-        var res = await News.find({});
-        console.log(res);
+        var resp = await News.find({});
+        console.log(resp);
        
         
     }catch(err){console.log('CAUGHT : '+err)}

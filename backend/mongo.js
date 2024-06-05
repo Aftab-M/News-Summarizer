@@ -18,8 +18,11 @@ async function getNews(){
 
     var result = await News.find()
     .then((data)=>{
-        console.log(`Fetched ${data.length} news documents`)
+        // console.log(`Fetched ${data.length} news documents`)
+        console.log(data)
     })
+
+    process.exit()
 
 }
 
@@ -46,6 +49,7 @@ function checkDateTime(){
 
 // checkDateTime()
 
+getNews()
 
 
 module.exports = {getNews, addNews}

@@ -12,9 +12,9 @@ const {getSummaries} = require('./summarize')
 
 
 app.get('/scrapenews', async(req, res)=>{
-    var result = await scrapeNews();
-    res.send(result);
-    console.log(result);
+    // var result = await scrapeNews();
+    // res.send(result);
+    // console.log(result);
 
     // getSummaries()
 

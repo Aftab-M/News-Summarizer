@@ -1,8 +1,9 @@
+import '../index.css'
 
 function HomePage(){
     return(
         <div>
-            How Many ?
+            <p className="text-3xl font-bold underline">Hello World !!</p>
         </div>
     );
 }
