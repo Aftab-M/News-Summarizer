@@ -35,7 +35,7 @@ async function getUser(req, res){
 
 
 
-getUser()
+// getUser()
 
 
 

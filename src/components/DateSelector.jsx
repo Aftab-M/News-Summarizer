@@ -4,13 +4,15 @@ const DateSelector = ({ setDate }) => {
 
     const [selectedDate, setSelectedDate] = useState('');
     const todayDate = new Date().toISOString().split('T')[0];
-    const maxPrevDate = "2024-06-05";
+    const maxPrevDate = "2024-05-05";
 
     useEffect(() => {
       // Get today's date
       const today = new Date();
       // Format the date as "YYYY-MM-DD"
       const formattedDate = today.toISOString().split('T')[0];
+      console.log(today.getMonth())
+      console.log(formattedDate)
       // Set today's date as the initial value
       setSelectedDate(formattedDate);
     }, []);

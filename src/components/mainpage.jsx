@@ -3,6 +3,7 @@ import Header from './Header';
 import DateSelector from './DateSelector';
 import CategorySelector from './CategorySelector';
 import ItemList from './ItemList';
+import axios from 'axios';
 
 const itemsData = [
   {
@@ -18,19 +19,53 @@ const MainPage = () => {
 //   const [category, setCategory] = useState('');
   const [items, setItems] = useState([]);
 
+  const [generalNews, setGeneralNews] = useState([])
+  const [sportNews, setSportNews] = useState([])
+  const [politicNews, setPoliticNews] = useState([])
 
   const [selectedChip, setSelectedChip] = useState('General'); // Initial selected chip
   const [category, setCategory] = useState('General'); // Initial category
 
+
+
+
+
   const handleChipClick = (chip) => {
     setSelectedChip(chip);
     setCategory(chip); // Set category based on the selected chip
+    setItems(generalNews)
   };
 
+
+
+
+
+
+
+
+
   useEffect(() => {
-    // Fetch and filter items based on date and category
+    
     setItems(itemsData);
+    
+    
+    axios.get('http://localhost:3000/getnews').then((res)=>{
+        if(res.data.stat[0] == 'YERRER'){alert('Error fetching the data !')}
+        else{
+            console.log(res.data.general)
+            setGeneralNews(res.data.general)
+            setItems(generalNews)
+        }
+    })
+
+
   }, [date, category]);
+
+
+
+
+
+
 
   return (
     <div className="min-h-screen bg-black">

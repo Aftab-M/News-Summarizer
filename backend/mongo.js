@@ -1,6 +1,6 @@
 
 
-const {MongoClient, ServerApiVersion} = require('mongodb')
+// const {MongoClient, ServerApiVersion} = require('mongodb')
 const mong = require('mongoose')
 
 
@@ -49,7 +49,7 @@ function checkDateTime(){
 
 // checkDateTime()
 
-getNews()
+// getNews()
 
 
 module.exports = {getNews, addNews}
