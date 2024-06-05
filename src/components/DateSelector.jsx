@@ -1,11 +1,33 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 const DateSelector = ({ setDate }) => {
+
+    const [selectedDate, setSelectedDate] = useState('');
+    const todayDate = new Date().toISOString().split('T')[0];
+    const maxPrevDate = "2024-06-05";
+
+    useEffect(() => {
+      // Get today's date
+      const today = new Date();
+      // Format the date as "YYYY-MM-DD"
+      const formattedDate = today.toISOString().split('T')[0];
+      // Set today's date as the initial value
+      setSelectedDate(formattedDate);
+    }, []);
+
+    const handleDateChange = (e) => {
+      setSelectedDate(e.target.value);
+    };
+
+
   return (
     <div className="mb-4">
       <input 
         type="date" 
-        onChange={(e) => setDate(e.target.value)} 
+        value={selectedDate}
+        onChange={handleDateChange} 
+        max={todayDate}
+        min={maxPrevDate}
         className="p-2 border rounded-md"
       />
     </div>

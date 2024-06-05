@@ -23,7 +23,7 @@ const Header = ({ setLanguage }) => {
   }, [isMenuOpen]);
 
   return (
-    <header className="bg-blue-600 p-4 flex items-center justify-between">
+    <header className="bg-blue-600 p-3 flex items-center justify-between">
       <div className="text-white text-2xl flex-grow text-center sm:text-left sm:flex-grow-0">
         Logo
       </div>
@@ -34,7 +34,7 @@ const Header = ({ setLanguage }) => {
           className="w-1/2 p-2 rounded-full text-sm text-center border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-shadow"
         />
         <button
-            className="px-4 py-2 bg-blue-800 text-white rounded-full hover:bg-black transition"
+            className="px-4 py-2 ml-2 bg-slate-300 text-white rounded-full hover:bg-black active:px-3 transition duration-600"
             onClick={() => setIsMenuOpen(false)}
           >
             <img width={13} src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Vector_search_icon.svg/709px-Vector_search_icon.svg.png" alt="" />
