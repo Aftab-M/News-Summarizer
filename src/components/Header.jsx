@@ -23,7 +23,7 @@ const Header = ({ setLanguage }) => {
   }, [isMenuOpen]);
 
   return (
-    <header className="bg-blue-600 p-3 flex items-center justify-between">
+    <header className="bg-blue-900 p-4 flex items-center justify-between">
       <div className="text-white text-2xl flex-grow text-center sm:text-left sm:flex-grow-0">
         Logo
       </div>
