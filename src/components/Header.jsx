@@ -1,6 +1,7 @@
+import { useAuth0 } from '@auth0/auth0-react';
 import React, { useState, useRef, useEffect } from 'react';
 
-const Header = ({ setLanguage }) => {
+const Header = ({ username, userphoto, user, setLanguage, }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const menuRef = useRef(null);
 
@@ -10,7 +11,17 @@ const Header = ({ setLanguage }) => {
     }
   };
 
+
+  const {logout} = useAuth0()
+  const _logout = () =>{
+    logout({logoutParams:{returnTo: window.location.origin}})
+    console.log('Logged out !')
+  } // _logout
+
+
+
   useEffect(() => {
+    // console.log(user.email)
     if (isMenuOpen) {
       document.addEventListener('mousedown', handleClickOutside);
     } else {
@@ -25,7 +36,7 @@ const Header = ({ setLanguage }) => {
   return (
     <header className="bg-blue-900 p-4 flex items-center justify-between">
       <div className="text-white text-2xl flex-grow text-center sm:text-left sm:flex-grow-0">
-        Logo
+        {username}
       </div>
       <div className="hidden sm:flex flex-1 mx-4 justify-center">
         <input
@@ -41,14 +52,18 @@ const Header = ({ setLanguage }) => {
           </button>
       </div>
       <div className="hidden sm:flex relative">
-        <select
+        {/* <select
           className="p-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-shadow"
           onChange={(e) => setLanguage(e.target.value)}
         >
           <option value="en">English</option>
           <option value="es">Spanish</option>
           <option value="fr">French</option>
-        </select>
+        </select> */}
+        <button onClick={()=>{_logout()}} className='flex items-center justify-between bg-black mr-3 px-6 py-2 text-white rounded-full hover:bg-white hover:text-black transition'>
+          <div>{username}</div>
+          <div><img className='rounded-full ml-2' width={22} src={userphoto} alt="" /></div>
+        </button>
       </div>
       <div className="flex sm:hidden items-center">
         <button

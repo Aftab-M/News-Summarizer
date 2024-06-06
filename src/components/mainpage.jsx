@@ -13,7 +13,7 @@ const itemsData = [
   // Add more items here
 ];
 
-const MainPage = () => {
+const MainPage = ({user}) => {
   const [language, setLanguage] = useState('en');
   const [date, setDate] = useState('');
 //   const [category, setCategory] = useState('');
@@ -26,7 +26,7 @@ const MainPage = () => {
   const [selectedChip, setSelectedChip] = useState('General'); // Initial selected chip
   const [category, setCategory] = useState('General'); // Initial category
 
-
+  const [usr, setUser] = useState()
 
 
 
@@ -47,7 +47,7 @@ const MainPage = () => {
   useEffect(() => {
     
     setItems(itemsData);
-    
+    console.log(user)
     
     axios.get('http://localhost:3000/getnews').then((res)=>{
         if(res.data.stat[0] == 'YERRER'){alert('Error fetching the data !')}
@@ -69,11 +69,11 @@ const MainPage = () => {
 
   return (
     <div className="min-h-screen bg-black">
-      <Header setLanguage={setLanguage} />
+      <Header username={user.name} userphoto={user.picture} user={user} setLanguage={setLanguage} />
       <div className="container mx-auto p-4 px-14">
         <div className='flex flex-wrap items-center justify-between mb-6'>
             {/* <div className='text-xl text-white'>All News</div> */}
-          
+          {/* {props.user} */}
           {(screen.width<400)?
                         <div className=''>
                             <select
