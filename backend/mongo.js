@@ -44,11 +44,31 @@ function checkDateTime(){
     var now = new Date()
     const todayDate = new Date().toISOString().split('T')[0];
     const todayTime = new Date().toISOString().split('T')[1];
+    console.log(todayDate);
+    console.log(todayTime)
     // var date = now.getDate() + '-' + parseInt(parseInt(now.getMonth())+1) + '-' + now.getFullYear()
     // var time = now.getHours() + '-' + now.getMinutes() + '-' + now.getMilliseconds()
     // console.log(date)
     process.exit()
 }
+
+
+
+// THIS IS TO MAKE ANY VALUE-BASED CHANGES IN THE DATA ALREADY EXISTING IN THE DB
+async function makeChanges(){
+    News.updateMany({newsDate: '8-6-2024'}, {$set: {newsDate: '2024-06-08'}})
+    .then((res)=>{
+        console.log('Updated !')
+        console.log(res)
+    })
+    .catch((err)=>{
+        console.log("got error : ")
+        console.log(err)
+    })
+}
+
+
+// makeChanges()
 
 
 // checkDateTime()
