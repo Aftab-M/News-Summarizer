@@ -1,35 +1,40 @@
 import requests as rq
 from bs4 import BeautifulSoup
 
-url = 'https://www.bbc.com/sport'
+url = 'https://www.bbc.com/news'
 
 response = rq.get(url)
 
 soup = BeautifulSoup(response.content, 'html.parser')
 
 
-all_news = soup.find_all(name='div', class_='ssrcss-1va2pun-UncontainedPromoWrapper eqfxz1e5')
+all_news = soup.find_all(name='article', class_='sc-9636e898-0 dYtsiK')
 
-# raw_title_text = title_element.get_text()
+newss = all_news[0].find_all(name= 'a', class_='sc-2e6baa30-0 gILusN')
+# raw_title_text = all_news.get_text()
 
 # print(title_element)
 
 newslinks = []
-for i in all_news : 
+for i in newss : 
     # print(i.get_text())
-    one_element = i.find('a', class_='ssrcss-zmz0hi-PromoLink exn3ah91')
-    title = i.find('p', class_='ssrcss-1nzemmm-PromoHeadline exn3ah96')
-    if(title):
-        print(title.get_text())
+    # one_element = i.find('a', class_='sc-2e6baa30-0 gILusN')
+    link = i.get('href')
+    # print(link)
+    title = i.find('h2', class_='sc-4fedabc7-3 zTZri')
+    # if(title):
+    #     print(title.get_text())
     # print(one_element)
-    if(one_element and one_element.has_attr('href')):
-        if(one_element != None and title != None):
+    if(link != '' ):
+        if(title != None):
             # print(one_element.get('href'))
-            if '/sounds/' not in one_element.get('href') : 
-                newslinks.append({'linkk': one_element.get('href'), 'titlee':title.get_text()})
+            if '/news/articles/' in link : 
+                newslinks.append({'linkk': link, 'titlee':title.get_text()})
             
 
 # print(newslinks)
+for i in newslinks: 
+    print(i)
 
 # newslinks = newslinks[:5]
 
@@ -44,25 +49,23 @@ def getTitleAndDescription() :
         # title = ss.find('div', class_='ssrcss-1ki8hfp-StyledZone e1mcntqj3')
         # print("\n\n-----------------------Title is : "+title.get_text())
 
-        desc = ss.find('div', class_='ssrcss-uf6wea-RichTextComponentWrapper ep2nwvo0')
+        desc = ss.find_all('p', class_='sc-eb7bd5f6-0 fYAfXe')
+        # print(desc)
         # desctext = desc.find_all(text=True, recursive=False)
         # print(desctext)
-        if desc != None :
-            print(desc.getText())
-        print('\n')
-        
-        if title != None and desc != None:
-            newses.append({'title' : i['titlee'], 'desc' : desc.getText()})
+        desc = desc[:-2]
+        dd = ""
+        for k in desc:
+            dd += k.getText()
+        print('Title : ',i['titlee'],'\n')
+        print(dd+'\n\n\n')
+        # if title != None and desc != None:
+            # newses.append({'title' : i['titlee'], 'desc' : desc.getText()})
 
 
 getTitleAndDescription()
 
 
-print('\n')
-# print(raw_title_text)
-
-
-news = "https://timesofindia.indiatimes.com/"
 
 
 

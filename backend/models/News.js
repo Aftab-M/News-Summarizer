@@ -6,7 +6,8 @@ const News = new mong.Schema({
     newsSummary: String,
     newsLink: String,
     newsDate: String, 
-    newsTime: String
+    newsTime: String, 
+    newsCat: String,
 })
 
 module.exports = mong.model('News', News)

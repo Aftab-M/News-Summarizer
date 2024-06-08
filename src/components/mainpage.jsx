@@ -15,7 +15,7 @@ const itemsData = [
 
 const MainPage = ({user}) => {
   const [language, setLanguage] = useState('en');
-  const [date, setDate] = useState('');
+  const [date, setDate] = useState('6-6-2024');
 //   const [category, setCategory] = useState('');
   const [items, setItems] = useState([]);
 
@@ -33,7 +33,7 @@ const MainPage = ({user}) => {
   const handleChipClick = (chip) => {
     setSelectedChip(chip);
     setCategory(chip); // Set category based on the selected chip
-    setItems(generalNews)
+    // setItems(generalNews)
   };
 
 
@@ -46,15 +46,15 @@ const MainPage = ({user}) => {
 
   useEffect(() => {
     
-    setItems(itemsData);
-    console.log(user)
-    
-    axios.get('http://localhost:3000/getnews').then((res)=>{
+    // setItems(itemsData);
+    // console.log(user)
+    console.log(date)
+    axios.post('http://localhost:3000/getnews', {cat: category, dt:date}).then((res)=>{
         if(res.data.stat[0] == 'YERRER'){alert('Error fetching the data !')}
         else{
             console.log(res.data.general)
-            setGeneralNews(res.data.general)
-            setItems(generalNews)
+            // setGeneralNews(res.data.general)
+            setItems(res.data.general)
         }
     })
 

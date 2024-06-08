@@ -176,14 +176,23 @@ async function getInternationalSportsNews() {
       
       // summarizeNews(newses);
 
-      newses = newses.splice(2, 5)
+    //   newses = newses.splice()
+    var n = newses.length
+    newses = newses.slice(3, n-2)
+    console.log(newses.length)
 
       for(var i in newses){
         console.log('Title  : '+newses[i].title+' with desc length : '+newses[i].desc.length)
 
           console.log('Summarizing the news : '+newses[i].title)
-          getSummary(newses[i].title, newses[i].desc, newses[i].link);
-          await delay(4000);
+          try{
+            getSummary(newses[i].title, newses[i].desc, newses[i].link, 'Sports');
+          }
+          catch(e){
+            console.log('Got the error from getInternationalSportsNews()')
+            console.log(e)
+          }
+          await delay(30000);
 
 
       }
@@ -237,27 +246,28 @@ async function getPoliticalNews() {
       const response = await axios.get(url);
       const $ = cheerio.load(response.data);
 
-      const allNews = $('div.sc-52c2b1e7-2');
-      // console.log(allNews)
+      const allNews = $('div.sc-b38350e4-1');
+    //   console.log(allNews)
       let newsLinks = [];
 
       allNews.each((index, element) => {
           const oneElement = $(element).find('a.sc-2e6baa30-0');
+        //   console.log(oneElement)
           const title = $(element).find('h2.sc-4fedabc7-3').text();
-
+        // console.log(title)
           // console.log(oneElement.attr('href'))
           // console.log("\n\n"+title)
-          if (oneElement && oneElement.attr('href')) {
-                if(!oneElement.attr('href').includes('https://')){
+        //   if (oneElement && oneElement.attr('href')) {
+                // if(!oneElement.attr('href').includes('https://')){
                   newsLinks.push({
                       linkk: oneElement.attr('href'),
                       titlee: title
                   });
-          }
-          }
+        //   }
+        //   }
       });
 
-      // console.log(newsLinks)
+      console.log(newsLinks)
       let newses = [];
 
       for (const news of newsLinks) {
@@ -269,17 +279,128 @@ async function getPoliticalNews() {
           if (desc) {
               newses.push({
                   title: news.titlee,
-                  desc: desc
+                  desc: desc, 
+                  link: 'https://www.bbc.com'+ news.linkk,
               });
           }
       }
       console.log(newsLinks.length+" news from getPoliticalNews()")
-      return newses;
+    //   console.log(newsLinks)
+    //   return newses;
+    // newses = newses.splice(2, 5)
+
+    // for(var i in newses){
+    //   console.log('Title  : '+newses[i].title+' with desc length : '+newses[i].desc.length)
+
+    //     console.log('Summarizing the news : '+newses[i].title)
+    //     getSummary(newses[i].title, newses[i].desc, newses[i].link, 'Politics');
+    //     await delay(4000);
+
+
+    // }
   } catch (error) {
       console.error('Error fetching news:', error);
       return [];
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// async function getIntPol() {
+
+async function getIntPol() {
+    const url = 'https://www.bbc.com/news';
+    const response = await axios.get(url);
+    const $ = cheerio.load(response.data);
+
+    const allNews = $('article.sc-9636e898-0.dYtsiK');
+    const newsLinks = [];
+    const newss = allNews.find('a.sc-2e6baa30-0.gILusN')
+    // console.log(newss)
+    const encounteredTitles = new Set();
+
+    newss.each((index, element) => {
+        // const newsLink = $(element).find('a.sc-2e6baa30-0.gILusN').attr('href');
+        const newsLink = $(element).attr('href')
+        const title = $(element).find('h2.sc-4fedabc7-3.zTZri').text();
+
+        if (newsLink && title && newsLink.includes('/news/articles/') && !encounteredTitles.has(title)) {
+            encounteredTitles.add(title);
+            newsLinks.push({ link: newsLink, title: title });
+        }
+    });
+    console.log(newsLinks.length)
+
+    var newses = [];
+
+    for (const news of newsLinks) {
+        const linkResponse = await axios.get('https://www.bbc.com' + news.link);
+        const $$ = cheerio.load(linkResponse.data);
+        const descriptions = $$('p.sc-eb7bd5f6-0.fYAfXe').slice(0, -2).map((index, element) => $(element).text()).get();
+        // console.log(descriptions)
+        const description = descriptions.join('. '); // Concatenate descriptions into a single string
+        
+
+        // console.log('Title:', news.title, '\n\n');
+        // console.log(description,'\n\n\n\n')
+        
+        newses.push({
+            title: news.title, 
+            desc: description, 
+            link: 'https://bbc.com'+news.link
+        });
+        
+    }
+
+
+
+
+
+
+
+    // SUMMARIZATION
+    // newses.slice(4,19)
+    // console.log(newses.length)
+    console.log(`Summarizing ${newses.length} news for Politics in total`)
+    for(var i in newses){
+        console.log('Title  : '+newses[i].title+' with desc length : '+newses[i].desc.length)
+
+          console.log('Summarizing the news : '+newses[i].title)
+          try{
+            getSummary(newses[i].title, newses[i].desc, newses[i].link, 'Politics');
+          }
+          catch(e){
+            console.log('This exception is printed from trial.js')
+            console.log(e)
+          }
+          await delay(20000);
+
+
+      }
+
+
+}   // getIntPol()
+
+
+
+
+
+
 
 
 
@@ -332,7 +453,7 @@ async function getIndiaNews() {
           }
       });
 
-      newsLinks.splice(0, 10)
+    //   newsLinks.splice(0, 10)
       console.log(newsLinks.length+" news from getIndiaNews()")
       let newses = [];
 
@@ -396,9 +517,9 @@ async function getEventsNews() {
 
 async function getAllNews(){
   
-  await getInternationalSportsNews()
+//   await getInternationalSportsNews()
 
-  // await getPoliticalNews();
+  await getIntPol()
   
   // await getIndiaNews();
 

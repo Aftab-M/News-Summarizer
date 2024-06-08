@@ -27,8 +27,12 @@ app.get('/scrapenews', async(req, res)=>{
 })
 
 
-app.get('/getnews', async(req, res)=>{
-    var allnews = await News.find()
+app.post('/getnews', async(req, res)=>{
+    var cat = req.body.cat;
+    var date = req.body.dt;
+    console.log(date);
+    // console.log(cat)
+    var allnews = await News.find({newsCat: cat, newsDate: date})
     console.log(`Got ${allnews.length} news from the DB`)
     if(allnews){
         res.send({'stat':['DONE'], 'general':allnews})
