@@ -5,6 +5,8 @@ const Header = ({ username, userphoto, user, setLanguage, }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const menuRef = useRef(null);
 
+  const [isDialogOpen, setIsDialogOpen] = useState(true)
+
   const handleClickOutside = (event) => {
     if (menuRef.current && !menuRef.current.contains(event.target)) {
       setIsMenuOpen(false);
@@ -21,7 +23,7 @@ const Header = ({ username, userphoto, user, setLanguage, }) => {
 
 
   useEffect(() => {
-    // console.log(user.email)
+    // console.log(user)
     if (isMenuOpen) {
       document.addEventListener('mousedown', handleClickOutside);
     } else {
@@ -35,8 +37,8 @@ const Header = ({ username, userphoto, user, setLanguage, }) => {
 
   return (
     <header className="bg-blue-900 p-4 flex items-center justify-between">
-      <div className="text-white text-2xl flex-grow text-center sm:text-left sm:flex-grow-0">
-        {username}
+      <div className="text-white flex-grow rounded-md text-center sm:text-left sm:flex-grow-0">
+        <img width={140} className='rounded-md' src="https://firebasestorage.googleapis.com/v0/b/egdb-f23fd.appspot.com/o/Screenshot%202024-06-09%20172403.png?alt=media&token=73a36bd5-1546-4620-bdcb-eeb2babfe217" alt="" />
       </div>
       <div className="hidden sm:flex flex-1 mx-4 justify-center">
         <input
@@ -60,20 +62,22 @@ const Header = ({ username, userphoto, user, setLanguage, }) => {
           <option value="es">Spanish</option>
           <option value="fr">French</option>
         </select> */}
-        <button onClick={()=>{_logout()}} className='flex items-center justify-between bg-black mr-3 px-6 py-2 text-white rounded-full hover:bg-white hover:text-black transition'>
-          <div>{username}</div>
-          <div><img className='rounded-full ml-2' width={22} src={userphoto} alt="" /></div>
-        </button>
+       
       </div>
-      <div className="flex sm:hidden items-center justify-center">
-        <button
-          className="inline-flex justify-center w-full rounded-full  px-2 py-2 bg-white text-xs  text-black hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-blue-500"
-          onClick={() => setIsMenuOpen(!isMenuOpen)}
-        >
-          <span className="text-2xl">
-            <img width={20} src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/dc/Settings-icon-symbol-vector.png/480px-Settings-icon-symbol-vector.png" alt="" />
-          </span>
-        </button>
+      <div>
+        <div className="flex sm:hidden items-center justify-center">
+          <button
+            className="inline-flex justify-center w-full rounded-full  px-2 py-2 bg-white text-xs  text-black hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-blue-500"
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+          >
+            <span className="text-2xl">
+              <img width={20} src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/dc/Settings-icon-symbol-vector.png/480px-Settings-icon-symbol-vector.png" alt="" />
+            </span>
+          </button>
+        </div>
+        <div className='hidden sm:block'>
+        {isDialogOpen && <Example link={''} username={user.name} userphoto={user.picture}/>}
+        </div>
       </div>
       <div
         className={`fixed bottom-0 left-0 w-full h-2/3 bg-blue-900 shadow-md p-4 sm:hidden z-50 transform transition-transform duration-300 ${
@@ -196,22 +200,26 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
-function Example({link}) {
+function Example({link, username, userphoto, setLanguage}) {
+
+  const {logout} = useAuth0()
+  const _logout = () =>{
+    logout({logoutParams:{returnTo: window.location.origin}})
+    console.log('Logged out !')
+  } // _logout
+
+
   return (
     <Menu as="div" className="relative inline-block text-left">
       <div>
-        <MenuButton className="inline-flex w-full justify-center rounded-md bg-gray-300 px-1 py-1 text-sm font-semibold text-gray-900 shadow-sm  hover:bg-gray-800 hover:text-white focus:outline-none">
-          {/* <img src="" alt="" /> */}
-          {/* <ChevronDownIcon className="-mr-1 h-5 w-5 text-gray-400" aria-hidden="true" /> */}
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-3">
-  <path strokeLinecap="round" strokeLinejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
-</svg>
-
-
-
+        <MenuButton className="">
+        <button onClick={()=>{}} className='flex items-center justify-between bg-black mr-3 px-6 py-2 text-white rounded-full hover:bg-white hover:text-black transition'>
+          <div>{username}</div>
+          <div><img className='rounded-full ml-2' width={22} src={userphoto} alt="" /></div>
+        </button>
         </MenuButton>
       </div>
-
+      
       <Transition
         enter="transition ease-out duration-100"
         enterFrom="transform opacity-0 scale-95"
@@ -253,29 +261,34 @@ function Example({link}) {
               )}
             </MenuItem>
             
-            {/* <MenuItem>
+            <MenuItem>
+            
               {({ focus }) => (
-                <a
-                  href="#"
-                  className={classNames(
-                    focus ? 'bg-gray-400 text-gray-900' : 'text-gray-700',
-                    'block px-4 py-2 text-sm'
-                  )}
-                >
-                  <div className='flex'>
-                  <div className='pr-3'><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-5">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z" />
-                  </svg>
-                  </div>
-
-                  <div>
-                    Needs fix
-                  </div>
-
-                  </div>
-                </a>
+                 <div
+                 className="flex items-center justify-around w-full p-2 rounded-md border border-gray-300"
+                 onChange={(e) => setLanguage(e.target.value)}
+               >
+                 <option value="en" className='bg-gray-400 rounded-md px-3 py-1 hover:bg-black hover:text-white hover:cursor-pointer border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-shadow font-medium'>EN</option>
+                 <option value="es" className='bg-gray-400 rounded-md px-3 py-1 hover:bg-black hover:text-white hover:cursor-pointer border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-shadow font-medium'>HI</option>
+                 <option value="fr" className='bg-gray-400 rounded-md px-3 py-1 hover:bg-black hover:text-white hover:cursor-pointer border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-shadow font-medium'>MR</option>
+               </div>
               )}
-            </MenuItem> */}
+            </MenuItem>
+
+
+
+            <MenuItem>
+              <div className='flex items-center bg-red-500 p-3 px-4 cursor-pointer'>
+                <div>
+                  <svg xmlns="http://www.w3.org/2000/svg" onClick={()=>{_logout()}} fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6 active:bg-white rounded-full">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15M12 9l-3 3m0 0 3 3m-3-3h12.75" />
+                  </svg>
+                </div>
+                <div className='font-medium ml-4'>
+                  Log Out ?
+                </div>
+              </div>
+            </MenuItem>
 
             
           </div>

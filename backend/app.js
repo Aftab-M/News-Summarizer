@@ -10,6 +10,7 @@ app.use(express.json())
 const {scrapeNews} = require('./trr');
 // const {getSummaries} = require('./summarize')
 const News = require('./models/News')
+const User = require('./models/User')
 
 
 
@@ -39,6 +40,20 @@ app.post('/getnews', async(req, res)=>{
     }else{
         res.send({'stat':['YERRER']})
     }
+})
+
+app.post('/saveuser', async(req, res)=>{
+    var user = req.body.user;
+    console.log(user);
+    try{
+        var result = await User.findOneAndUpdate({email: user.email}, {$set: { email: user.email, email_verified: user.email_verified, family_name: user.family_name, given_name: user.given_name, last_login: new Date().toString(), name: user.name, nickname: user.nickname, picture: user.picture, sub: user.sub, updated_at: user.updated_at}}, {upsert: true, returnOriginal: false})
+        res.send({msg: 'Verified'})
+    }
+    catch(e){
+        console.log(e);
+        res.send({msg: e});
+    }
+    
 })
 
 

@@ -41,13 +41,22 @@ const MainPage = ({user}) => {
 
 
 
-
+async function saveUserInfo(){
+  axios.post('http://localhost:3000/saveuser', {user:user}).then((res)=>{
+    console.log(res.data.msg)
+    if(res.data.msg == 'Verified'){}
+    else{
+      console.log('Error identifying...')
+    }
+  })
+}
 
 
   useEffect(() => {
     
     // setItems(itemsData);
     // console.log(user)
+    saveUserInfo()
     console.log(date)
     axios.post('http://localhost:3000/getnews', {cat: category, dt:date}).then((res)=>{
         if(res.data.stat[0] == 'YERRER'){alert('Error fetching the data !')}
