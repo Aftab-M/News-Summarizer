@@ -20,7 +20,7 @@ function Login(){
             </Button> }
             {(isLoading) && <>Page loading, maybe ?</>}
             
-            {(isAuthenticated) && <MainPage user={user}/>}
+            {(user) && <MainPage user={user}/>}
         </>
     )
 }

@@ -79,7 +79,7 @@ async function saveUserInfo(){
   return (
     <div className="min-h-screen bg-black">
       <Header username={user.name} userphoto={user.picture} user={user} setLanguage={setLanguage} />
-      <div className="container mx-auto p-4 px-14">
+      <div className="container mx-auto p-4 px-8">
         <div className='flex flex-wrap items-center justify-between mb-6'>
             {/* <div className='text-xl text-white'>All News</div> */}
           {/* {props.user} */}
