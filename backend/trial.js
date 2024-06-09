@@ -178,7 +178,7 @@ async function getInternationalSportsNews() {
 
     //   newses = newses.splice()
     var n = newses.length
-    newses = newses.slice(3, n-2)
+    // newses = newses.slice(3, n-2)
     console.log(newses.length)
 
       for(var i in newses){
@@ -466,11 +466,30 @@ async function getIndiaNews() {
           if (desc) {
               newses.push({
                   title: news.titlee,
-                  desc: desc
+                  desc: desc, 
+                  linkk: news.linkk
               });
           }
       }
-      // console.log(newses.length)
+      // console.log(newses)
+      newses = newses.splice(5, 20)
+      console.log(`Summarizing ${newses.length} news for India in total`)
+    for(var i in newses){
+        // console.log('Title  : '+newses[i].title+' with desc length : '+newses[i].desc.length)
+
+          console.log('Summarizing the news : '+newses[i].linkk)
+          // try{
+          //   getSummary(newses[i].title, newses[i].desc, newses[i].link, 'General');
+          // }
+          // catch(e){
+          //   console.log('This exception is printed from trial.js')
+          //   console.log(e)
+          // }
+          // await delay(20000);
+
+
+      }
+
       return newses;
   } catch (error) {
       console.error('Error fetching news:', error);
@@ -517,11 +536,11 @@ async function getEventsNews() {
 
 async function getAllNews(){
   
-//   await getInternationalSportsNews()
+  // await getInternationalSportsNews()
 
-  await getIntPol()
+  // await getIntPol()
   
-  // await getIndiaNews();
+  await getIndiaNews();
 
 }
 

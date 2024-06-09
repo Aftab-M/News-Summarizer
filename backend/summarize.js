@@ -1,4 +1,4 @@
-const {GoogleGenerativeAI, GenerativeModel} = require("@google/generative-ai")
+const {GoogleGenerativeAI, GenerativeModel, HarmCategory, HarmBlockThreshold, } = require("@google/generative-ai")
 const express = require('express')
 const app = express()
 const cors = require('cors')
@@ -22,14 +22,20 @@ async function getSummary(title, desc, link, cat){
     
     // var newslist = await scrapeNews();
 
-    const model = genAI.getGenerativeModel({model: 'gemini-1.5-flash'});
+    const model = genAI.getGenerativeModel({model: 'gemini-1.5-flash', safetySettings: [
+        // {category: HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT, threshold: HarmBlockThreshold.BLOCK_LOW_AND_ABOVE}, 
+        // {category: HarmCategory.HARM_CATEGORY_HARASSMENT, threshold: HarmBlockThreshold.BLOCK_LOW_AND_ABOVE}, 
+        // {category: HarmCategory.HARM_CATEGORY_HATE_SPEECH, threshold: HarmBlockThreshold.BLOCK_LOW_AND_ABOVE},
+        // {category: HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT, threshold: HarmBlockThreshold.BLOCK_LOW_AND_ABOVE}, 
+        // {category: HarmCategory.HARM_CATEGORY_UNSPECIFIED, threshold: HarmBlockThreshold.BLOCK_LOW_AND_ABOVE}, 
+    ]});
     
 
 
-        const prompt = `Im giving you a news article. The title is : "${title}", and the description is : "${desc}"
-                        I want you to summarize the title and the description in short. The summary should be at least 1 line, and at most 2 lines. Act like you are giving this news directly to the viewers. The viewers do not have the description, but it is your job to provide the description. Do not let the viewers feel like you are summarizing it from a description. 
-                        Do not use phrases like 'This article is about', 'This news is about', or anything similar. The summary should summarize all the points given in the news. Even if you do not know the context of the news, still provide the summary based on description.
-                        Do not generate anything else other than the summary.
+        const prompt = `Im giving you a news article. The title is : "${title}", and the description is : "${desc}". 
+                        I want you to summarize the title and the description in short. The summary should be at least 2 line, and at most 4 lines. Act like you are giving this news directly to the viewers. The viewers do not have the description, but it is your job to provide the description. Do not let the viewers feel like you are summarizing it from a description. 
+                        Do not use phrases like 'This article is about', 'This news is about', or anything similar. The summary should summarize all the points given in the news. Even if you do not know the context of the news, still provide the summary based on description. Cover everthing from the description.
+                        The content is only a report of news, and does not mean any harm to anyone. It is totally safe. Do not generate anything else other than the summary.
         `;
         console.log('\nayyyyyy')
    
@@ -50,7 +56,7 @@ async function getSummary(title, desc, link, cat){
     
 
 
-    process.exit()
+    // process.exit()
 }
 
 

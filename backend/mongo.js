@@ -29,9 +29,9 @@ async function getNews(){
 
 async function addNews(newsTitle, newsSummary, newsLink, newsCat){
     var now = new Date()
-    const todayDate = new Date().toISOString().split('T')[0];
+    var todayDate = new Date().toISOString().split('T')[0];
     // var date = now.getDate() + '-' + parseInt(parseInt(now.getMonth())+1) + '-' + now.getFullYear()
-    const todayTime = new Date().toISOString().split('T')[1];
+    var todayTime = new Date().toISOString().split('T')[1];
     // var time = now.getHours() + '-' + now.getMinutes() + '-' + now.getMilliseconds()
 
     var result = await News.insertMany({'newsTitle': newsTitle, 'newsLink': newsLink, 'newsSummary': newsSummary, 'newsDate': todayDate, 'newsTime': todayTime, 'newsCat': newsCat})
