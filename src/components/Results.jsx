@@ -1,87 +1,52 @@
-import React, { useEffect, useState } from 'react';
-import translate from 'google-translate-api-x';
-import { Translator, speak, singleTranslate, batchTranslate, languages, isSupported, getCode } from 'google-translate-api-x';
+import React, { useState } from "react";
 
-const ItemList = ({ items, setItems, language }) => {
-
-  const [engItems, setEngItems] = useState(items)
-  const [hinItems, setHinItems] = useState([])
-  const [marItems, setMarItems] = useState([])
-  const [loading, setLoading] = useState(false)
-
-  const trnslt = async() =>{
-    console.log('in trnslt()')
-    
-    // items.map(async (item)=>{
-      // console.log(item['newsTitle'])
-      // const title = item['newsTitle']
-      // const desc = item['newsSummary']
-      if(language=='en'){
-        setItems(engItems)
-        console.log(items)
-        console.log(engItems)
-      }
-      if(language=='hi'){
-          setLoading(true)
-            axios.post('http://localhost:3000/translatee', {items: items, lang: language})
-          .then((res)=>{
-            // console.log(res.data.t_items)
-            setHinItems(res.data.t_items)
-            setItems(res.data.t_items)
-            setLoading(false)
-          })
-          .catch((err)=>{
-            console.log(err)
-            setLoading(false)
-          })
-      } // if
-      if(language=='mr'){
-            setLoading(true)
-            axios.post('http://localhost:3000/translatee', {items: items, lang: language})
-          .then((res)=>{
-            // console.log(res.data.t_items)
-            setMarItems(res.data.t_items)
-            setItems(res.data.t_items)
-            setLoading(false)
-          })
-          .catch((err)=>{
-            console.log(err)
-            setLoading(false)
-          })
-      }
-      
-    // })
-  }  
-
-    const [hoveredIndex, setHoveredIndex] = useState(null);
-    useEffect(()=>{
-      // if(language=='en'){null}
-      // if(language=='hi'){
-      //   trnslt()
-      // }
-      // console.log(language)
-      console.log(items)
-      trnslt()
-    },[language])
-
-    return (
-      <div>
-        {loading && <div className='fixed inset-0 flex items-center justify-center z-30'>
-            <img src="https://blog.roberthallam.org/wp-content/uploads/2022/09/loading-windows98-transparent2-1.gif" alt="" />
-          </div>}
-        {
-          (items.length == 0) 
-          ? 
-            <center><img width={500} src="https://www.vascon.com/images/404/hanging_404.gif" /></center>
-          :
+function Results({isResultsOpen ,setIsResultsOpen, results, searchKeyword, setSearchKeyword, searchNews}){
+    // const [searchKeyword, setSearchKeyword] = useState('')
+    const [hoveredIndex, setHoveredIndex] = useState(null)
+    return(
+        <>
+            <div
+        className={`fixed bottom-0 left-0 w-full h-full overflow-y-scroll bg-gray-900 shadow-md p-4 z-50 transform transition-transform duration-300 
+        ${isResultsOpen ? 'translate-y-0' : 'translate-y-full'} 
+            `}
+        // ref={menuRef}
+      >
+        <div className="hidden sm:flex flex-1 mx-4 mb-6 justify-center">
+        <input
+          type="text"
+          placeholder="Search..."
+          value={searchKeyword}
+          onChange={(e)=>{setSearchKeyword(e.target.value)}}
+          className="w-1/2 p-2 rounded-full text-sm text-center border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-shadow"
+        />
+        <button
+            className="px-4 py-2 ml-2 bg-slate-300 text-white rounded-full hover:bg-black active:px-3 transition duration-600"
+            onClick={() => {searchNews()}}
+          >
+            <img width={13} src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Vector_search_icon.svg/709px-Vector_search_icon.svg.png" alt="" />
+          </button>
+      </div>
+      {
+      (results.length == 0) 
+      ? 
+        <center><img src="https://cdnl.iconscout.com/lottie/premium/thumb/404-error-page-3959260-3299959.gif" /></center>
+      :
         <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 transition duration-300">
-            {items.map((item, index) => (
+            {results.map((item, index) => (
                 <div
                     key={index}
                     className={`transition duration-700 ease-in-out relative p-4 h-auto bg-gray-800 text-gray-200 overflow-hidden fade-gradient shadow rounded-md transition duration-300 hover:bg-gray-700 hover:text-white hover:border transition duration-700 ease-in-out`}
                     onMouseEnter={() => setHoveredIndex(index)}
                     onMouseLeave={() => setHoveredIndex(null)}
                 >
+                    <div className="flex items-center justify-between mb-4 mt-3">
+                        <div className={` p-2 rounded-full px-6
+                            ${(item['newsCat']=='Sports' && 'bg-green-700')} 
+                            ${(item['newsCat']=='Politics' && 'bg-red-700')} 
+                            ${(item['newsCat']=='General' && 'bg-yellow-700')} 
+                            `}>{item['newsCat']}</div>
+                        <div className="">{item['newsDate']}</div>
+                    </div>
                         <h3 className="text-xl font-bold pb-4 leading-relaxed">{item['newsTitle']}</h3>
                     <p className="leading-relaxed">{item['newsSummary']}</p>
                     
@@ -90,12 +55,43 @@ const ItemList = ({ items, setItems, language }) => {
                 </div>
             ))}
         </div>
-        }
-        </div>
-    );
-};
+        
 
-export default ItemList;
+}
+
+        
+        <center><button
+          className="w-2/3 p-2 mt-5 bg-red-500 text-white rounded-md hover:bg-red-900 transition"
+          onClick={()=>{setIsResultsOpen(false); setSearchKeyword('')}}
+        >
+        Close
+        </button>
+        </center>
+      </div>
+        </>
+    )
+}
+
+
+export default Results
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

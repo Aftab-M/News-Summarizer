@@ -11,6 +11,7 @@ const {scrapeNews} = require('./trr');
 // const {getSummaries} = require('./summarize')
 const News = require('./models/News')
 const User = require('./models/User')
+const { trnslt } = require('./tests')
 
 
 
@@ -55,6 +56,56 @@ app.post('/saveuser', async(req, res)=>{
     }
     
 })
+
+
+
+app.post('/translatee', async(req, res)=>{
+    const items = req.body.items;
+    const lang = req.body.lang;
+    var t_items = [];
+    // console.log(items);
+    await Promise.all(items.map(async(item)=>{
+        console.log(item['newsTitle'])
+        var tr_t = await trnslt(item['newsTitle'], lang)
+        // console.log(tr_t)
+        var tr_d = await trnslt(item['newsSummary'], lang)
+        // console.log(tr_d)
+        t_items.push({newsTitle: tr_t, newsSummary: tr_d, newsLink: item['newsLink']})
+    }))
+    // console.log('-----------------------------------------------> t_items are : ')
+    // console.log(t_items)
+    res.send({t_items: t_items})
+})
+
+
+
+
+
+
+
+
+app.post('/searchnews', async(req, res)=>{
+    var keyword = req.body.keyword;
+    // console.log(keyword)
+    const regex = new RegExp(keyword, 'i');
+    var result = await News.find({
+        $or: [
+            {newsTitle: {$regex: regex}}, 
+            {newsSummary: {$regex: regex}}, 
+            {newsLink: {$regex: regex}},
+        ]
+    })
+    console.log(result);
+    res.send({news: result});
+})
+
+
+
+
+
+
+
+
 
 
 app.get('/', (req, res)=>{

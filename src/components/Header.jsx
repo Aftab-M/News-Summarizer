@@ -3,7 +3,11 @@ import React, { useState, useRef, useEffect } from 'react';
 
 const Header = ({ username, userphoto, user, setLanguage, }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [searchKeyword, setSearchKeyword] = useState('')
+  const [isResultsOpen, setIsResultsOpen] = useState(false)
   const menuRef = useRef(null);
+  
+  const [results, setResults] = useState([])
 
   const [isDialogOpen, setIsDialogOpen] = useState(true)
 
@@ -19,6 +23,25 @@ const Header = ({ username, userphoto, user, setLanguage, }) => {
     logout({logoutParams:{returnTo: window.location.origin}})
     console.log('Logged out !')
   } // _logout
+
+
+  async function searchNews(){
+    console.log(searchKeyword)
+    if(searchKeyword!==''){
+    axios.post('http://localhost:3000/searchnews', {keyword: searchKeyword})
+    .then((res)=>{
+      console.log(res.data.news)
+      setIsResultsOpen(true)
+      setResults(res.data.news)
+    })
+    .catch((err)=>{
+      console.log(err)
+    })
+  }
+  else{
+    alert('Enter something to search !')
+  }
+  } // searchNews()
 
 
 
@@ -44,11 +67,13 @@ const Header = ({ username, userphoto, user, setLanguage, }) => {
         <input
           type="text"
           placeholder="Search..."
+          value={searchKeyword}
+          onChange={(e)=>{setSearchKeyword(e.target.value)}}
           className="w-1/2 p-2 rounded-full text-sm text-center border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-shadow"
         />
         <button
             className="px-4 py-2 ml-2 bg-slate-300 text-white rounded-full hover:bg-black active:px-3 transition duration-600"
-            onClick={() => setIsMenuOpen(false)}
+            onClick={() => {searchNews()}}
           >
             <img width={13} src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Vector_search_icon.svg/709px-Vector_search_icon.svg.png" alt="" />
           </button>
@@ -76,9 +101,10 @@ const Header = ({ username, userphoto, user, setLanguage, }) => {
           </button>
         </div>
         <div className='hidden sm:block'>
-        {isDialogOpen && <Example link={''} username={user.name} userphoto={user.picture}/>}
+        {isDialogOpen && <Example link={''} username={user.name} userphoto={user.picture} setLanguage={setLanguage}/>}
         </div>
       </div>
+      <Results isResultsOpen={isResultsOpen} setIsResultsOpen={setIsResultsOpen} results={results} searchKeyword={searchKeyword} setSearchKeyword={setSearchKeyword} searchNews={searchNews}/>
       <div
         className={`fixed bottom-0 left-0 w-full h-2/3 bg-blue-900 shadow-md p-4 sm:hidden z-50 transform transition-transform duration-300 ${
             isMenuOpen ? 'translate-y-0' : 'translate-y-full'
@@ -92,6 +118,7 @@ const Header = ({ username, userphoto, user, setLanguage, }) => {
             type="text"
             placeholder="Search..."
             className="flex-grow p-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-shadow mr-2"
+            onChange={(e)=>{searchNews(e.target.value); console.log(e.target.value)}}
           />
           <button
             className="p-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition"
@@ -104,11 +131,11 @@ const Header = ({ username, userphoto, user, setLanguage, }) => {
         <p className='p-1 text-white mt-7'>Language</p>
         <select
           className="w-full p-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-shadow mb-4"
-          onChange={(e) => setLanguage(e.target.value)}
+          onChange={(e)=>{setLanguage(e.target.value)}}
         >
-          <option value="en">English</option>
-          <option value="es">Spanish</option>
-          <option value="fr">French</option>
+          <option value="en" onClick={()=>{setLanguage('en')}}>English</option>
+          <option value="hi" onClick={()=>{setLanguage('hi')}}>Hindi</option>
+          <option value="mr" onClick={()=>{setLanguage('mr')}}>Marathi</option>
         </select>
         <button className='w-full flex items-center justify-between bg-black mr-3 px-8 py-3 text-white rounded-full transition'>
           <div className='flex items-center justify-center'>
@@ -134,6 +161,13 @@ const Header = ({ username, userphoto, user, setLanguage, }) => {
 };
 
 export default Header;
+
+
+
+
+
+
+
 
 
 
@@ -195,6 +229,8 @@ export default Header;
 import { Fragment } from 'react'
 import { Menu, MenuButton, MenuItem, MenuItems, Transition } from '@headlessui/react'
 import { ChevronDownIcon } from '@heroicons/react/solid'
+import axios from 'axios';
+import Results from './Results';
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
@@ -237,11 +273,11 @@ function Example({link, username, userphoto, setLanguage}) {
               {({ focus }) => (
                  <div
                  className="flex items-center justify-around w-full p-2 rounded-md border border-gray-300"
-                 onChange={(e) => setLanguage(e.target.value)}
+                 onChange={(e) => { console.log(e.target.value); setLanguage(e.target.value)}}
                >
-                 <option value="en" className='bg-gray-400 rounded-md px-3 py-1 hover:bg-black hover:text-white hover:cursor-pointer border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-shadow font-medium'>EN</option>
-                 <option value="es" className='bg-gray-400 rounded-md px-3 py-1 hover:bg-black hover:text-white hover:cursor-pointer border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-shadow font-medium'>HI</option>
-                 <option value="fr" className='bg-gray-400 rounded-md px-3 py-1 hover:bg-black hover:text-white hover:cursor-pointer border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-shadow font-medium'>MR</option>
+                 <option value="en" onClick={(e)=>{setLanguage('en')}} className='bg-gray-400 rounded-md px-3 py-1 hover:bg-black hover:text-white hover:cursor-pointer border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-shadow font-medium'>EN</option>
+                 <option value="hi" onClick={(e)=>{setLanguage('hi')}} className='bg-gray-400 rounded-md px-3 py-1 hover:bg-black hover:text-white hover:cursor-pointer border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-shadow font-medium'>HI</option>
+                 <option value="mr" onClick={(e)=>{setLanguage('mr')}} className='bg-gray-400 rounded-md px-3 py-1 hover:bg-black hover:text-white hover:cursor-pointer border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-shadow font-medium'>MR</option>
                </div>
               )}
             </MenuItem>

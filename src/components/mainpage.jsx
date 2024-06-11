@@ -67,8 +67,21 @@ async function saveUserInfo(){
         }
     })
 
+    if(language=='en'){
+      axios.post('http://localhost:3000/getnews', {cat: category, dt:date}).then((res)=>{
+        if(res.data.stat[0] == 'YERRER'){alert('Error fetching the data !')}
+        else{
+            console.log(res.data.general)
+            // setGeneralNews(res.data.general)
+            setItems(res.data.general)
+        }
+    })
+    }
 
-  }, [date, category]);
+
+
+
+  }, [date, category, language]);
 
 
 
@@ -105,7 +118,7 @@ async function saveUserInfo(){
           {/* <CategorySelector setCategory={setCategory} /> */}
         </div>
         </div>
-        <ItemList items={items} language={language} />
+        <ItemList items={items} setItems={setItems} language={language} />
       </div>
     </div>
   );

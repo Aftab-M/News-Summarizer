@@ -1,12 +1,20 @@
-const summary = require('node-summary');
+const translate = require('google-translate-api-x');
+// Or of course
+// import translate from 'google-translate-api-x';
+// Or deconstruct all the exposed variables as
+// import { translate, Translator, speak, singleTranslate, batchTranslate, languages, isSupported, getCode } from 'google-translate-api-x';
+// or again
+const { Translator, speak, singleTranslate, batchTranslate, languages, isSupported, getCode } = require('google-translate-api-x');
 
-const text = `NEW DELHI: The ICC Men's T20 World Cup is set to commence on June 2 (IST) with the USA facing Canada in the opening match at the Grand Prairie Stadium in Texas. India, the champions of the inaugural edition in 2007, will start their campaign against Ireland on June 5 (IST).The ICC Men's T20 World Cup 2024 will be hosted across three venues in the USA and six in the Caribbean, featuring a total of 55 matches involving 20 teams across nine venues.The pinnacle of the tournament, the final, is slated for June 29 in Barbados.Ten teams will kick off their campaigns in the USA, with 16 matches set to take place in Lauderhill, Dallas, and New York. Notably, the highly anticipated India-Pakistan clash is scheduled for June 9 at the Nassau County International Cricket Stadium in Long Island.In the Caribbean leg, 41 matches will unfold across six islands, with semi finals scheduled in Trinidad and Tobago and Guyana, leading up to the grand finale in Barbados.The ICC Men's T20 World Cup features four groups of five teams each, with the top two from each group progressing to the Super Eight phase, leading to knockout semi finals and the final.The tournament venues in the USA include Texas Grand Prairie Stadium, Florida Central Broward Regional Park Stadium, and New York Nassau County International Cricket Stadium.In the West Indies, matches will be held at Saint Vincent & the Grenadines' Arnos Vale Stadium, Antigua and Barbuda's Sir Vivian Richards Stadium, Barbados' Kensington Oval, Saint Lucia's Daren Sammy Cricket Ground, Trinidad and Tobago's Brian Lara Cricket Academy, and Providence Stadium in Guyana.India's T20 World Cup squad:Rohit Sharma (c), Hardik Pandya, Yashasvi Jaiswal, Virat Kohli, Suryakumar Yadav, Rishabh Pant, Sanju Samson, Shivam Dube, Ravindra Jadeja, Axar Patel, Kuldeep Yadav, Yuzvendra Chahal, Arshdeep Singh, Jasprit Bumrah, and Mohd. Siraj, with reserves Shubman Gill, Rinku Singh, Khaleel Ahmed, and Avesh Khan.India T20 World Cup schedule:For cricket fans eagerly anticipating India's matches in the T20 World Cup, here's all you need to know about the schedule, timings, and where to catch the action:India Matches Schedule:1. June 5: India vs Ireland - Nassau County International Cricket Stadium, New York - 8:00 PM IST2. June 9: India vs Pakistan - Nassau County International Cricket Stadium, New York - 8:00 PM IST3. June 12: India vs USA - Nassau County International Cricket Stadium, New York - 8:00 PM IST4. June 15: India vs Canada - Central Broward Park & Broward County Stadium, Lauderhill, Florida - 8:00 PM ISTWhere to Watch:- Television: Star Sports Network will broadcast the tournament in Hindi, Tamil, Telugu, and Kannada.- Live Stream: Disney + Hotstar will provide live streaming coverage for viewers in India.(Inputs from IANS)`;
+async function trnslt(txt, lang){
+  const res = await translate(txt, {to: lang});
 
-summary.summarize(text, (err, summary) => {
-  if (err) {
-    console.error("Error:", err);
-    return;
-  }
-  
-  console.log("Summary:", summary);
-});
+  // console.log(res.text); //=> I speak English
+  // console.log(res.from.language.iso);  //=> nl
+  return res.text;
+}
+
+
+// trnslt()
+
+module.exports = {trnslt}
