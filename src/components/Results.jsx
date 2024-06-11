@@ -11,7 +11,7 @@ function Results({isResultsOpen ,setIsResultsOpen, results, searchKeyword, setSe
             `}
         // ref={menuRef}
       >
-        <div className="hidden sm:flex flex-1 mx-4 mb-6 justify-center">
+        <div className="flex flex-1 mx-4 mb-6 justify-center">
         <input
           type="text"
           placeholder="Search..."

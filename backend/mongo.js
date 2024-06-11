@@ -56,19 +56,37 @@ function checkDateTime(){
 
 // THIS IS TO MAKE ANY VALUE-BASED CHANGES IN THE DATA ALREADY EXISTING IN THE DB
 async function makeChanges(){
-    News.updateMany({newsDate: '8-6-2024'}, {$set: {newsDate: '2024-06-08'}})
+    // News.updateOne({newsTitle: `Master 360° management with IIM Lucknow's program`}, {newsLink: 'https://timesofindia.indiatimes.com/india/rajeev-chandrasekhar-smriti-irani-and-anurag-thakur-not-in-modi-3-0-cabinet/articleshow/110847093.cms'})
+    // .then((res)=>{
+    //     console.log('Updated !')
+    //     console.log(res)
+    // })
+    // .catch((err)=>{
+    //     console.log("got error : ")
+    //     console.log(err)
+    // })
+
+    News.deleteOne({newsTitle: `Birla Estates sets a new benchmark in Uber luxury real estate`})
     .then((res)=>{
-        console.log('Updated !')
         console.log(res)
     })
     .catch((err)=>{
-        console.log("got error : ")
         console.log(err)
     })
+
+    // News.find({newsLink: 'https://timesofindia.indiatimes.com/india/rajeev-chandrasekhar-smriti-irani-and-anurag-thakur-not-in-modi-3-0-cabinet/articleshow/110847093.cms'})
+    // .then((res)=>{
+    //     console.log('Updated !')
+    //     console.log(res)
+    // })
+    // .catch((err)=>{
+    //     console.log("got error : ")
+    //     console.log(err)
+    // })
 }
 
 
-// makeChanges()
+makeChanges()
 
 
 // checkDateTime()

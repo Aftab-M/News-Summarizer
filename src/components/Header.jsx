@@ -1,7 +1,7 @@
 import { useAuth0 } from '@auth0/auth0-react';
 import React, { useState, useRef, useEffect } from 'react';
 
-const Header = ({ username, userphoto, user, setLanguage, }) => {
+const Header = ({ username, userphoto, user, setLanguage, language }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [searchKeyword, setSearchKeyword] = useState('')
   const [isResultsOpen, setIsResultsOpen] = useState(false)
@@ -33,6 +33,7 @@ const Header = ({ username, userphoto, user, setLanguage, }) => {
       console.log(res.data.news)
       setIsResultsOpen(true)
       setResults(res.data.news)
+      setIsMenuOpen(false)
     })
     .catch((err)=>{
       console.log(err)
@@ -101,7 +102,7 @@ const Header = ({ username, userphoto, user, setLanguage, }) => {
           </button>
         </div>
         <div className='hidden sm:block'>
-        {isDialogOpen && <Example link={''} username={user.name} userphoto={user.picture} setLanguage={setLanguage}/>}
+        {isDialogOpen && <Example link={''} username={user.name} userphoto={user.picture} setLanguage={setLanguage} language={language}/>}
         </div>
       </div>
       <Results isResultsOpen={isResultsOpen} setIsResultsOpen={setIsResultsOpen} results={results} searchKeyword={searchKeyword} setSearchKeyword={setSearchKeyword} searchNews={searchNews}/>
@@ -118,11 +119,12 @@ const Header = ({ username, userphoto, user, setLanguage, }) => {
             type="text"
             placeholder="Search..."
             className="flex-grow p-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-shadow mr-2"
-            onChange={(e)=>{searchNews(e.target.value); console.log(e.target.value)}}
+            value={searchKeyword}
+            onChange={(e)=>{setSearchKeyword(e.target.value)}}
           />
           <button
             className="p-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition"
-            onClick={() => setIsMenuOpen(false)}
+            onClick={() => searchNews()}
           >
             Search
           </button>
@@ -142,8 +144,8 @@ const Header = ({ username, userphoto, user, setLanguage, }) => {
               <div><img className='rounded-full mr-5' width={30} src={userphoto} alt="" /></div>
               <div>{username}</div>
           </div>
-          <div>
-          <svg xmlns="http://www.w3.org/2000/svg" onClick={()=>{_logout()}} fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6 active:bg-white rounded-full">
+          <div className='p-1 bg-blue-900 active:bg-white rounded-full'>
+          <svg xmlns="http://www.w3.org/2000/svg" onClick={()=>{_logout()}} fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
             <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15M12 9l-3 3m0 0 3 3m-3-3h12.75" />
           </svg>
           </div>
@@ -151,8 +153,7 @@ const Header = ({ username, userphoto, user, setLanguage, }) => {
         </button>
         <button
           className="w-full p-2 mt-5 bg-red-500 text-white rounded-md hover:bg-red-600 transition"
-          onClick={() => setIsMenuOpen(false)}
-        >
+          onClick={() => setIsMenuOpen(false)}>
           Close
         </button>
       </div>
@@ -236,7 +237,7 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
-function Example({link, username, userphoto, setLanguage}) {
+function Example({link, username, userphoto, setLanguage, language}) {
 
   const {logout} = useAuth0()
   const _logout = () =>{
@@ -275,9 +276,9 @@ function Example({link, username, userphoto, setLanguage}) {
                  className="flex items-center justify-around w-full p-2 rounded-md border border-gray-300"
                  onChange={(e) => { console.log(e.target.value); setLanguage(e.target.value)}}
                >
-                 <option value="en" onClick={(e)=>{setLanguage('en')}} className='bg-gray-400 rounded-md px-3 py-1 hover:bg-black hover:text-white hover:cursor-pointer border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-shadow font-medium'>EN</option>
-                 <option value="hi" onClick={(e)=>{setLanguage('hi')}} className='bg-gray-400 rounded-md px-3 py-1 hover:bg-black hover:text-white hover:cursor-pointer border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-shadow font-medium'>HI</option>
-                 <option value="mr" onClick={(e)=>{setLanguage('mr')}} className='bg-gray-400 rounded-md px-3 py-1 hover:bg-black hover:text-white hover:cursor-pointer border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-shadow font-medium'>MR</option>
+                 <option value="en" onClick={(e)=>{setLanguage('en')}} className={`bg-gray-400 rounded-md px-3 py-1 hover:bg-black hover:text-white hover:cursor-pointer border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-shadow font-medium ${language=='en' && 'bg-green-600'}`}>EN</option>
+                 <option value="hi" onClick={(e)=>{setLanguage('hi')}} className={`bg-gray-400 rounded-md px-3 py-1 hover:bg-black hover:text-white hover:cursor-pointer border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-shadow font-medium ${language=='hi' && 'bg-green-600'}`}>HI</option>
+                 <option value="mr" onClick={(e)=>{setLanguage('mr')}} className={`bg-gray-400 rounded-md px-3 py-1 hover:bg-black hover:text-white hover:cursor-pointer border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-shadow font-medium ${language=='mr' && 'bg-green-600'}`}>MR</option>
                </div>
               )}
             </MenuItem>

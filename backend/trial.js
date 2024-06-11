@@ -453,7 +453,7 @@ async function getIndiaNews() {
           }
       });
 
-    //   newsLinks.splice(0, 10)
+      // newsLinks.splice(0, 11)
       console.log(newsLinks.length+" news from getIndiaNews()")
       let newses = [];
 
@@ -478,14 +478,14 @@ async function getIndiaNews() {
         // console.log('Title  : '+newses[i].title+' with desc length : '+newses[i].desc.length)
 
           console.log('Summarizing the news : '+newses[i].linkk)
-          // try{
-          //   getSummary(newses[i].title, newses[i].desc, newses[i].link, 'General');
-          // }
-          // catch(e){
-          //   console.log('This exception is printed from trial.js')
-          //   console.log(e)
-          // }
-          // await delay(20000);
+          try{
+            getSummary(newses[i].title, newses[i].desc, newses[i].linkk, 'General');
+          }
+          catch(e){
+            console.log('This exception is printed from trial.js')
+            console.log(e)
+          }
+          await delay(20000);
 
 
       }
@@ -540,8 +540,12 @@ async function getAllNews(){
 
   // await getIntPol()
   
-  await getIndiaNews();
+  await getIndiaNews().then(()=>{
+    console.log('Done summarizing...!')
+    process.exit()
+  })
 
+  
 }
 
 
