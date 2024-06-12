@@ -49,6 +49,10 @@ const Header = ({ username, userphoto, user, setLanguage, language }) => {
 
 
   useEffect(() => {
+    const handleBeforeUnload = (event) => {
+      event.preventDefault();
+      event.returnValue = 'Log Out ?'; // Some browsers require this line
+    };
     // console.log(user)
     if (isMenuOpen) {
       document.addEventListener('mousedown', handleClickOutside);
@@ -56,9 +60,15 @@ const Header = ({ username, userphoto, user, setLanguage, language }) => {
       document.removeEventListener('mousedown', handleClickOutside);
     }
 
+    window.addEventListener('beforeunload', handleBeforeUnload);
+
+
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('beforeunload', handleBeforeUnload)
     };
+
+    
   }, [isMenuOpen]);
 
   return (
@@ -111,7 +121,8 @@ const Header = ({ username, userphoto, user, setLanguage, language }) => {
       <div
         className={`fixed bottom-0 left-0 w-full h-2/3 bg-blue-900 shadow-md p-4 sm:hidden z-50 transform transition-transform duration-300 ${
             isMenuOpen ? 'translate-y-0' : 'translate-y-full'
-          }`}
+          }` }
+          
         ref={menuRef}
       >
         <p className='p-1 text-white mt-2'>Search for a topic</p>
@@ -162,7 +173,7 @@ const Header = ({ username, userphoto, user, setLanguage, language }) => {
           
         </button>
         <button
-          className="w-full p-2 mt-5 bg-red-500 text-white rounded-md hover:bg-red-600 transition"
+          className="w-full p-2 mt-10 bg-red-500 text-white rounded-md hover:bg-red-600 transition"
           onClick={() => setIsMenuOpen(false)}>
           Close
         </button>
@@ -263,9 +274,9 @@ function Example({link, username, userphoto, setLanguage, language}) {
 
 
             <MenuItem>
-              <div className='flex items-center bg-red-500 p-3 px-4 cursor-pointer'>
-                <div>
-                  <svg xmlns="http://www.w3.org/2000/svg" onClick={()=>{_logout()}} fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6 active:bg-white rounded-full">
+              <div className='flex items-center bg-red-500 p-3 px-4'>
+                <div className='bg-white rounded-full p-1 cursor-pointer hover:bg-gray-600'>
+                  <svg xmlns="http://www.w3.org/2000/svg" onClick={()=>{_logout()}} fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-5 active:bg-white rounded-full">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15M12 9l-3 3m0 0 3 3m-3-3h12.75" />
                   </svg>
                 </div>

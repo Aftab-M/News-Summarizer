@@ -11,7 +11,7 @@ const MainPage = ({user}) => {
   const urlPrefix = 'https://news-summarizer-endpoint.vercel.app';
   const [language, setLanguage] = useState('en');
   const [date, setDate] = useState('6-6-2024');
-  const [items, setItems] = useState([]);
+  const [items, setItems] = useState([{newsTitle:'Loading items...', newsSummary: ''}]);
 
   const [generalNews, setGeneralNews] = useState([])
   const [sportNews, setSportNews] = useState([])
@@ -19,6 +19,7 @@ const MainPage = ({user}) => {
 
   const [selectedChip, setSelectedChip] = useState('General'); // Initial selected chip
   const [category, setCategory] = useState('General'); // Initial category
+  const [loading, setLoading] = useState(false)
 
   // const [usr, setUser] = useState()
 
@@ -51,12 +52,14 @@ async function saveUserInfo(){
 
     saveUserInfo()
     // console.log(date)
+    setLoading(true)
     axios.post(urlPrefix+'/getnews', {cat: category, dt:date}).then((res)=>{
         if(res.data.stat[0] == 'YERRER'){alert('Error fetching the data !')}
         else{
             // console.log(res.data.general)
             // setGeneralNews(res.data.general)
             setItems(res.data.general)
+            setLoading(false)
         }
     })
 
@@ -67,6 +70,7 @@ async function saveUserInfo(){
             // console.log(res.data.general)
             // setGeneralNews(res.data.general)
             setItems(res.data.general)
+            setLoading(false)
         }
     })
     }
@@ -84,6 +88,9 @@ async function saveUserInfo(){
 
   return (
     <div className="min-h-screen bg-black">
+    {loading && <div className='fixed inset-0 flex items-center justify-center z-30'>
+            <img src="https://blog.roberthallam.org/wp-content/uploads/2022/09/loading-windows98-transparent2-1.gif" alt="" />
+          </div>}
       <Header username={user.name} userphoto={user.picture} user={user} setLanguage={setLanguage} language={language} />
       <div className="container mx-auto p-4 px-8">
         <div className='flex flex-wrap items-center justify-between mb-6'>
