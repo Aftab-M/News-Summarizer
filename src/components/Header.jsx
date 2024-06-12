@@ -2,6 +2,8 @@ import { useAuth0 } from '@auth0/auth0-react';
 import React, { useState, useRef, useEffect } from 'react';
 
 const Header = ({ username, userphoto, user, setLanguage, language }) => {
+  const urlPrefix = 'https://news-summarizer-endpoint.vercel.app';
+
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [searchKeyword, setSearchKeyword] = useState('')
   const [isResultsOpen, setIsResultsOpen] = useState(false)
@@ -28,7 +30,7 @@ const Header = ({ username, userphoto, user, setLanguage, language }) => {
   async function searchNews(){
     // console.log(searchKeyword)
     if(searchKeyword!==''){
-    axios.post('http://localhost:3000/searchnews', {keyword: searchKeyword})
+    axios.post(urlPrefix+'/searchnews', {keyword: searchKeyword})
     .then((res)=>{
       // console.log(res.data.news)
       setIsResultsOpen(true)

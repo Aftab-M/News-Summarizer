@@ -4,6 +4,9 @@ import { Translator, speak, singleTranslate, batchTranslate, languages, isSuppor
 
 const ItemList = ({ items, setItems, language }) => {
 
+  const urlPrefix = 'https://news-summarizer-endpoint.vercel.app';
+
+
   const [engItems, setEngItems] = useState(items)
   const [hinItems, setHinItems] = useState([])
   const [marItems, setMarItems] = useState([])
@@ -23,7 +26,7 @@ const ItemList = ({ items, setItems, language }) => {
       }
       if(language=='hi'){
           setLoading(true)
-            axios.post('http://localhost:3000/translatee', {items: items, lang: language})
+            axios.post(urlPrefix+'/translatee', {items: items, lang: language})
           .then((res)=>{
             // console.log(res.data.t_items)
             setHinItems(res.data.t_items)
@@ -37,7 +40,7 @@ const ItemList = ({ items, setItems, language }) => {
       } // if
       if(language=='mr'){
             setLoading(true)
-            axios.post('http://localhost:3000/translatee', {items: items, lang: language})
+            axios.post(urlPrefix+'/translatee', {items: items, lang: language})
           .then((res)=>{
             // console.log(res.data.t_items)
             setMarItems(res.data.t_items)
