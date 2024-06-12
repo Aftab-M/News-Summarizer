@@ -6,18 +6,11 @@ import CategorySelector from './CategorySelector';
 import ItemList from './ItemList';
 import axios from 'axios';
 
-const itemsData = [
-  {
-    title: { en: "Item 1", es: "Artículo 1", fr: "Article 1" },
-    description: { en: "Description 1", es: "Descripción 1", fr: "Description 1" },
-  },
-  // Add more items here
-];
 
 const MainPage = ({user}) => {
+  const urlPrefix = 'https://news-summarizer-endpoint.vercel.app';
   const [language, setLanguage] = useState('en');
   const [date, setDate] = useState('6-6-2024');
-//   const [category, setCategory] = useState('');
   const [items, setItems] = useState([]);
 
   const [generalNews, setGeneralNews] = useState([])
@@ -44,7 +37,7 @@ const MainPage = ({user}) => {
 
 async function saveUserInfo(){
   Cookies.set('user', 'Eminemmmmmm')
-  axios.post('http://localhost:3000/saveuser', {user:user}).then((res)=>{
+  axios.post(urlPrefix+'/saveuser', {user:user}).then((res)=>{
     // console.log(res.data.msg)
     if(res.data.msg == 'Verified'){}
     else{
@@ -58,7 +51,7 @@ async function saveUserInfo(){
 
     saveUserInfo()
     // console.log(date)
-    axios.post('http://localhost:3000/getnews', {cat: category, dt:date}).then((res)=>{
+    axios.post(urlPrefix+'/getnews', {cat: category, dt:date}).then((res)=>{
         if(res.data.stat[0] == 'YERRER'){alert('Error fetching the data !')}
         else{
             // console.log(res.data.general)
@@ -68,7 +61,7 @@ async function saveUserInfo(){
     })
 
     if(language=='en'){
-      axios.post('http://localhost:3000/getnews', {cat: category, dt:date}).then((res)=>{
+      axios.post(urlPrefix+'/getnews', {cat: category, dt:date}).then((res)=>{
         if(res.data.stat[0] == 'YERRER'){alert('Error fetching the data !')}
         else{
             // console.log(res.data.general)

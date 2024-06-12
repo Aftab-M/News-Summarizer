@@ -6,6 +6,8 @@ const mong = require('mongoose')
 const port = 3000
 app.use(cors()) 
 app.use(express.json())
+app.use(cors({origin:'*', methods:['POST', 'GET'], credentials:true}))
+
 
 const {scrapeNews} = require('./trr');
 
