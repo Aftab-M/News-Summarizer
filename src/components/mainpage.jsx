@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Header from './Header';
+import Cookies from 'js-cookie'
 import DateSelector from './DateSelector';
 import CategorySelector from './CategorySelector';
 import ItemList from './ItemList';
@@ -26,7 +27,7 @@ const MainPage = ({user}) => {
   const [selectedChip, setSelectedChip] = useState('General'); // Initial selected chip
   const [category, setCategory] = useState('General'); // Initial category
 
-  const [usr, setUser] = useState()
+  // const [usr, setUser] = useState()
 
 
 
@@ -42,8 +43,9 @@ const MainPage = ({user}) => {
 
 
 async function saveUserInfo(){
+  Cookies.set('user', 'Eminemmmmmm')
   axios.post('http://localhost:3000/saveuser', {user:user}).then((res)=>{
-    console.log(res.data.msg)
+    // console.log(res.data.msg)
     if(res.data.msg == 'Verified'){}
     else{
       console.log('Error identifying...')
@@ -53,15 +55,13 @@ async function saveUserInfo(){
 
 
   useEffect(() => {
-    
-    // setItems(itemsData);
-    // console.log(user)
+
     saveUserInfo()
-    console.log(date)
+    // console.log(date)
     axios.post('http://localhost:3000/getnews', {cat: category, dt:date}).then((res)=>{
         if(res.data.stat[0] == 'YERRER'){alert('Error fetching the data !')}
         else{
-            console.log(res.data.general)
+            // console.log(res.data.general)
             // setGeneralNews(res.data.general)
             setItems(res.data.general)
         }
@@ -71,7 +71,7 @@ async function saveUserInfo(){
       axios.post('http://localhost:3000/getnews', {cat: category, dt:date}).then((res)=>{
         if(res.data.stat[0] == 'YERRER'){alert('Error fetching the data !')}
         else{
-            console.log(res.data.general)
+            // console.log(res.data.general)
             // setGeneralNews(res.data.general)
             setItems(res.data.general)
         }

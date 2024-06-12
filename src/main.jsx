@@ -8,7 +8,7 @@ import Login from './login.jsx'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   // <React.StrictMode>
-  <Auth0Provider domain='dev-ly5u84pbjsnv5z6h.us.auth0.com' clientId='P3vGVo1167HUZnqE3ip4tJZNaAh6iS2L' authorizationParams={{redirect_uri: window.location.origin}}>
+  <Auth0Provider useRefreshTokens={true} domain='dev-ly5u84pbjsnv5z6h.us.auth0.com' clientId='P3vGVo1167HUZnqE3ip4tJZNaAh6iS2L' authorizationParams={{redirect_uri: window.location.origin}}>
     <BrowserRouter>
     
       <Routes>

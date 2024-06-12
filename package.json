@@ -24,6 +24,7 @@
     "firebase-admin": "^12.1.1",
     "google-translate-api": "^2.3.0",
     "google-translate-api-x": "^10.6.8",
+    "js-cookie": "^3.0.5",
     "mongodb": "^2.2.36",
     "mongoose": "^8.4.0",
     "node-summary": "^1.2.0",

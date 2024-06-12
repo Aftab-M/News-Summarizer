@@ -18,18 +18,18 @@ function Login(){
             {(!isAuthenticated) && 
         <div className="relative w-screen h-screen flex flex-wrap justify-center items-center">
             <div className="absolute inset-0 z-0">
-                <img src="https://i.ytimg.com/vi/yGEOXfRfLAo/maxresdefault.jpg" className="w-full h-screen object-cover" alt="" />
+                <img src="https://png.pngtree.com/thumb_back/fw800/background/20231221/pngtree-retro-old-english-newspaper-background-photo-image_15548852.png" className="w-full h-screen object-cover" alt="" />
             </div>
                 
 
                 <div className="relative z-10 w-full flex flex-wrap justify-center items-center px-80 sm:justify-between">
-                    <div className="text-black text-5xl rounded-md  z-10">
-                        <p className="">News_AI</p>
+                    <div className="text-black text-5xl rounded-md  z-10 bg-gray-400 px-14 py-4">
+                        <p style={{fontFamily: 'serif'}}>News_AI</p>
                     </div>
                     
-                    <Button className='bg-black p-5 m-5 text-white rounded-md hover:bg-gray-800 transition ease' onClick={()=>{loginWithRedirect()}}>
-                        Login, maybe ?
-                    </Button> 
+                    <Button className='bg-black mt-36 sm: p-4 px-16 sm:m-5  text-white rounded-full hover:bg-gray-800 transition ease' onClick={()=>{loginWithRedirect()}}>
+                        Login
+                    </Button>
                     
                 </div>
         </div>}
@@ -40,3 +40,9 @@ function Login(){
 
 
 export default Login
+
+
+
+
+
+// https://i.ytimg.com/vi/yGEOXfRfLAo/maxresdefault.jpg

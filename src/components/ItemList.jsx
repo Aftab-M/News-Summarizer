@@ -10,7 +10,7 @@ const ItemList = ({ items, setItems, language }) => {
   const [loading, setLoading] = useState(false)
 
   const trnslt = async() =>{
-    console.log('in trnslt()')
+    // console.log('in trnslt()')
     
     // items.map(async (item)=>{
       // console.log(item['newsTitle'])
@@ -18,8 +18,8 @@ const ItemList = ({ items, setItems, language }) => {
       // const desc = item['newsSummary']
       if(language=='en'){
         setItems(engItems)
-        console.log(items)
-        console.log(engItems)
+        // console.log(items)
+        // console.log(engItems)
       }
       if(language=='hi'){
           setLoading(true)
@@ -60,7 +60,7 @@ const ItemList = ({ items, setItems, language }) => {
       //   trnslt()
       // }
       // console.log(language)
-      console.log(items)
+      // console.log(items)
       trnslt()
     },[language])
 
