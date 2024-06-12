@@ -16,13 +16,13 @@ function Login(){
     return(
         <div>
             {(!isAuthenticated) && 
-        <div className="relative w-screen h-screen flex flex-wrap justify-center items-center">
+        <div className="relative w-full h-screen flex flex-wrap justify-center items-center">
             <div className="absolute inset-0 z-0">
                 <img src="https://png.pngtree.com/thumb_back/fw800/background/20231221/pngtree-retro-old-english-newspaper-background-photo-image_15548852.png" className="w-full h-screen object-cover" alt="" />
             </div>
                 
 
-                <div className="relative z-10 w-full flex flex-wrap justify-center items-center px-80 sm:justify-between">
+                <div className="fixed z-10 w-full flex flex-wrap justify-center items-center px-80 sm:justify-between">
                     <div className="text-black text-5xl rounded-md  z-10 bg-gray-400 px-14 py-4">
                         <p style={{fontFamily: 'serif'}}>News_AI</p>
                     </div>

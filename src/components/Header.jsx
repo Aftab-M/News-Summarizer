@@ -131,14 +131,22 @@ const Header = ({ username, userphoto, user, setLanguage, language }) => {
         </div>
 
         <p className='p-1 text-white mt-7'>Language</p>
-        <select
+        {/* <select
           className="w-full p-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-shadow mb-4"
-          onChange={(e)=>{setLanguage(e.target.value)}}
+          onChange={(e)=>{setLanguage(e.target.value); console.log(e.target.value)}}
         >
           <option value="en" onClick={()=>{setLanguage('en')}}>English</option>
           <option value="hi" onClick={()=>{setLanguage('hi')}}>Hindi</option>
           <option value="mr" onClick={()=>{setLanguage('mr')}}>Marathi</option>
-        </select>
+        </select> */}
+           <div
+                 className="flex items-center justify-around w-full p-2 mb-8 mt-1 rounded-md"
+                 onChange={(e) => {setLanguage(e.target.value)}}
+               >
+                 <option value="en" onClick={(e)=>{setLanguage('en')}} className={`bg-gray-400 rounded-md px-3 py-1 hover:bg-black hover:text-white hover:cursor-pointer border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-shadow font-medium ${language=='en' && 'bg-green-600'}`}>EN</option>
+                 <option value="hi" onClick={(e)=>{setLanguage('hi')}} className={`bg-gray-400 rounded-md px-3 py-1 hover:bg-black hover:text-white hover:cursor-pointer border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-shadow font-medium ${language=='hi' && 'bg-green-600'}`}>HI</option>
+                 <option value="mr" onClick={(e)=>{setLanguage('mr')}} className={`bg-gray-400 rounded-md px-3 py-1 hover:bg-black hover:text-white hover:cursor-pointer border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-shadow font-medium ${language=='mr' && 'bg-green-600'}`}>MR</option>
+               </div>
         <button className='w-full flex items-center justify-between bg-black mr-3 px-8 py-3 text-white rounded-full transition'>
           <div className='flex items-center justify-center'>
               <div><img className='rounded-full mr-5' width={30} src={userphoto} alt="" /></div>
