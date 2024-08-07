@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 function Results({isResultsOpen ,setIsResultsOpen, results, searchKeyword, setSearchKeyword, searchNews}){
-    // const [searchKeyword, setSearchKeyword] = useState('')
+  
     const [hoveredIndex, setHoveredIndex] = useState(null)
     return(
         <>
@@ -9,7 +9,6 @@ function Results({isResultsOpen ,setIsResultsOpen, results, searchKeyword, setSe
         className={`fixed bottom-0 left-0 w-full h-full overflow-y-scroll bg-gray-900 shadow-md p-4 z-50 transform transition-transform duration-300 
         ${isResultsOpen ? 'translate-y-0' : 'translate-y-full'} 
             `}
-        // ref={menuRef}
       >
         <div className="flex flex-1 mx-4 mb-6 justify-center">
         <input
