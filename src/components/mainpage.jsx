@@ -17,18 +17,17 @@ const MainPage = ({user}) => {
   const [sportNews, setSportNews] = useState([])
   const [politicNews, setPoliticNews] = useState([])
 
-  const [selectedChip, setSelectedChip] = useState('General'); // Initial selected chip
-  const [category, setCategory] = useState('General'); // Initial category
+  const [selectedChip, setSelectedChip] = useState('General');
+  const [category, setCategory] = useState('General'); 
   const [loading, setLoading] = useState(false)
 
-  // const [usr, setUser] = useState()
+
 
 
 
   const handleChipClick = (chip) => {
     setSelectedChip(chip);
-    setCategory(chip); // Set category based on the selected chip
-    // setItems(generalNews)
+    setCategory(chip);
   };
 
 
@@ -39,7 +38,6 @@ const MainPage = ({user}) => {
 async function saveUserInfo(){
   Cookies.set('user', 'Eminemmmmmm')
   axios.post(urlPrefix+'/saveuser', {user:user}).then((res)=>{
-    // console.log(res.data.msg)
     if(res.data.msg == 'Verified'){}
     else{
       console.log('Error identifying...')
@@ -51,13 +49,10 @@ async function saveUserInfo(){
   useEffect(() => {
 
     saveUserInfo()
-    // console.log(date)
     setLoading(true)
     axios.post(urlPrefix+'/getnews', {cat: category, dt:date}).then((res)=>{
         if(res.data.stat[0] == 'YERRER'){alert('Error fetching the data !')}
         else{
-            // console.log(res.data.general)
-            // setGeneralNews(res.data.general)
             setItems(res.data.general)
             setLoading(false)
         }
@@ -67,8 +62,6 @@ async function saveUserInfo(){
       axios.post(urlPrefix+'/getnews', {cat: category, dt:date}).then((res)=>{
         if(res.data.stat[0] == 'YERRER'){alert('Error fetching the data !')}
         else{
-            // console.log(res.data.general)
-            // setGeneralNews(res.data.general)
             setItems(res.data.general)
             setLoading(false)
         }
@@ -94,8 +87,6 @@ async function saveUserInfo(){
       <Header username={user.name} userphoto={user.picture} user={user} setLanguage={setLanguage} language={language} />
       <div className="container mx-auto p-4 px-8">
         <div className='flex flex-wrap items-center justify-between mb-6'>
-            {/* <div className='text-xl text-white'>All News</div> */}
-          {/* {props.user} */}
           {(screen.width<400)?
                         <div className=''>
                             <select
@@ -115,7 +106,6 @@ async function saveUserInfo(){
         
         <div className="flex flex-wrap space-x-6 items-center justify-end">
           <DateSelector setDate={setDate} />
-          {/* <CategorySelector setCategory={setCategory} /> */}
         </div>
         </div>
         <ItemList items={items} setItems={setItems} language={language} />
@@ -123,26 +113,6 @@ async function saveUserInfo(){
     </div>
   );
 };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -163,19 +133,6 @@ const Chip = ({ label, selected, onClick }) => {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-// Items component
 const Items = ({ category }) => {
     // Load items based on the selected category
     const loadItems = (category) => {
