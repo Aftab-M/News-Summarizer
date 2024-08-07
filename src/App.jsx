@@ -10,9 +10,7 @@ function App(props) {
 
   return (
     <>
-      <HomePage user={props.user}/>
-      {/* <Login/> */}
-      
+      <HomePage user={props.user}/>      
     </>
   )
 }
