@@ -84,6 +84,7 @@ async function getTitleAndDescription(newslinks) {
 async function getInternationalSportsNews() {
   const url = 'https://www.bbc.com/sport';
   let newses = [];
+  let cnt = 0;
   try {
       const response = await axios.get(url);
       const $ = cheerio.load(response.data);
@@ -93,6 +94,7 @@ async function getInternationalSportsNews() {
       let newsLinks = [];
 
       allNews.each((index, element) => {
+        if(cnt>=4) {return}
           const oneElement = $(element).find('a.ssrcss-zmz0hi-PromoLink.exn3ah91');
           const title = $(element).find('p.ssrcss-1nzemmm-PromoHeadline.exn3ah96').text();
 
@@ -102,6 +104,7 @@ async function getInternationalSportsNews() {
                       linkk: oneElement.attr('href'),
                       titlee: title
                   });
+                  cnt++;
               }
           }
       });
@@ -121,6 +124,7 @@ async function getInternationalSportsNews() {
                   link: 'https://www.bbc.com'+news.linkk,
               });
           }
+        console.log(news)
       }
       console.log(newses.length+" news from getInternationalSportsNews()")
       console.log(newses.length)
@@ -355,20 +359,15 @@ async function getAllNews(){
   
   await getInternationalSportsNews()
 
-  await getIntPol()
+//   await getIntPol()
   
-  await getIndiaNews().then(()=>{
-    console.log('Done summarizing...!')
-    process.exit()
-  })
+//   await getIndiaNews().then(()=>{
+//     console.log('Done summarizing...!')
+//     process.exit()
+//   })
 
   
 }
 
 
 getAllNews()
-
-
-
-
-

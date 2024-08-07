@@ -1,7 +1,7 @@
 import requests as rq
 from bs4 import BeautifulSoup
 
-url = 'https://www.bbc.com/news'
+url = ''
 
 response = rq.get(url)
 
