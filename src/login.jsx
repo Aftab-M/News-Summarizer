@@ -40,9 +40,3 @@ function Login(){
 
 
 export default Login
-
-
-
-
-
-// https://i.ytimg.com/vi/yGEOXfRfLAo/maxresdefault.jpg
