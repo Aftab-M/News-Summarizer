@@ -13,22 +13,13 @@ const ItemList = ({ items, setItems, language }) => {
   const [loading, setLoading] = useState(false)
 
   const trnslt = async() =>{
-    // console.log('in trnslt()')
-    
-    // items.map(async (item)=>{
-      // console.log(item['newsTitle'])
-      // const title = item['newsTitle']
-      // const desc = item['newsSummary']
       if(language=='en'){
         setItems(engItems)
-        // console.log(items)
-        // console.log(engItems)
       }
       if(language=='hi'){
           setLoading(true)
             axios.post(urlPrefix+'/translatee', {items: items, lang: language})
           .then((res)=>{
-            // console.log(res.data.t_items)
             setHinItems(res.data.t_items)
             setItems(res.data.t_items)
             setLoading(false)
@@ -42,7 +33,6 @@ const ItemList = ({ items, setItems, language }) => {
             setLoading(true)
             axios.post(urlPrefix+'/translatee', {items: items, lang: language})
           .then((res)=>{
-            // console.log(res.data.t_items)
             setMarItems(res.data.t_items)
             setItems(res.data.t_items)
             setLoading(false)
@@ -53,17 +43,11 @@ const ItemList = ({ items, setItems, language }) => {
           })
       }
       
-    // })
+  
   }  
 
     const [hoveredIndex, setHoveredIndex] = useState(null);
     useEffect(()=>{
-      // if(language=='en'){null}
-      // if(language=='hi'){
-      //   trnslt()
-      // }
-      // console.log(language)
-      // console.log(items)
       trnslt()
     },[language])
 
@@ -118,8 +102,6 @@ function Example({link}) {
     <Menu as="div" className="relative inline-block text-left">
       <div>
         <MenuButton className="inline-flex w-full justify-center rounded-md bg-gray-300 px-1 py-1 text-sm font-semibold text-gray-900 shadow-sm  hover:bg-gray-800 hover:text-white focus:outline-none">
-          {/* <img src="" alt="" /> */}
-          {/* <ChevronDownIcon className="-mr-1 h-5 w-5 text-gray-400" aria-hidden="true" /> */}
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-3">
   <path strokeLinecap="round" strokeLinejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
 </svg>
@@ -152,9 +134,6 @@ function Example({link}) {
                     window.open(link, '_blank')
                   }}>
                   <div className='pr-3'>
-                    {/* <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-4">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="m4.5 19.5 15-15m0 0H8.25m11.25 0v11.25" />
-                    </svg> */}
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-5">
                       <path strokeLinecap="round" strokeLinejoin="round" d="M12 21a9.004 9.004 0 0 0 8.716-6.747M12 21a9.004 9.004 0 0 1-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 0 1 7.843 4.582M12 3a8.997 8.997 0 0 0-7.843 4.582m15.686 0A11.953 11.953 0 0 1 12 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0 1 21 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0 1 12 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 0 1 3 12c0-1.605.42-3.113 1.157-4.418" />
                     </svg>
@@ -170,30 +149,7 @@ function Example({link}) {
               )}
             </MenuItem>
             
-            {/* <MenuItem>
-              {({ focus }) => (
-                <a
-                  href="#"
-                  className={classNames(
-                    focus ? 'bg-gray-400 text-gray-900' : 'text-gray-700',
-                    'block px-4 py-2 text-sm'
-                  )}
-                >
-                  <div className='flex'>
-                  <div className='pr-3'><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-5">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z" />
-                  </svg>
-                  </div>
-
-                  <div>
-                    Needs fix
-                  </div>
-
-                  </div>
-                </a>
-              )}
-            </MenuItem> */}
-
+         
             
           </div>
         </MenuItems>
