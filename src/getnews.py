@@ -7,20 +7,8 @@ response = rq.get(url)
 
 soup = BeautifulSoup(response.content, 'html.parser')
 
-# nEjlO
-
-# title_element = soup.find_all(name='div', class_='atWBy Q6d5H grid_wrapper')
-
-# Works for getting a lot of stuff, but only text, no link
-# title_element = soup.find_all(name='figcaption')
-
 
 title_element = soup.find_all(name='div', class_='col_l_6')
-
-
-
-# raw_title_text = title_element.get_text()
-
 newslinks = []
 
 for i in title_element:
@@ -28,9 +16,6 @@ for i in title_element:
     if one_element and one_element.has_attr('href'):
         newslinks.append(one_element.get('href'))
     
-
-# print(newslinks)
-
 
 newses = [
     
