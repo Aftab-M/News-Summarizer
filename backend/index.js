@@ -16,8 +16,6 @@ const User = require('./models/User')
 const { trnslt } = require('./tests')
 
 
-
-// mong.connect("mongodb+srv://useraf:passnew@cluster0.awk4cby.mongodb.net/ainews?retryWrites=true&w=majority&appName=Cluster0");
 mong.connect(process.env.MONGO_STRING)
 
 
@@ -116,7 +114,7 @@ app.post('/searchnews', async(req, res)=>{
 
 
 app.get('/', (req, res)=>{
-    res.send('Ayo the server is running !');
+    res.send('Server is up and running !');
 })
 
 

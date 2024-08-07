@@ -2,7 +2,7 @@ const mong = require('mongoose')
 const News = require('./models/News')
 
 
-mong.connect("mongodb+srv://useraf:passnew@cluster0.awk4cby.mongodb.net/ainews?retryWrites=true&w=majority&appName=Cluster0");
+mong.connect(process.env.MONGO_STRING);
 
 
 
