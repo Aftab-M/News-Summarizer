@@ -14,7 +14,7 @@ const DateSelector = ({ setDate }) => {
       const today = new Date();
       // Format the date as "YYYY-MM-DD"
       const formattedDate = today.toISOString().split('T')[0];
-      // console.log('Got the date : ',selectedDate)
+      console.log('Got the date : ',selectedDate)
       setSelectedDate(formattedDate);
     }, []);
 

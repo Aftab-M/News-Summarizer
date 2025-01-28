@@ -82,21 +82,21 @@ async function getTitleAndDescription(newslinks) {
 
 
 async function getInternationalSportsNews() {
-  const url = 'https://www.bbc.com/sport';
+  const url = 'https://timesofindia.indiatimes.com/sports';
   let newses = [];
   let cnt = 0;
   try {
       const response = await axios.get(url);
       const $ = cheerio.load(response.data);
 
-      const allNews = $('div.ssrcss-1va2pun-UncontainedPromoWrapper.eqfxz1e5');
+      const allNews = $('div.vertical_12 w_1 left_spacing right_spacing bottom_v_spacing b_brdr brdr_2');
 
       let newsLinks = [];
 
       allNews.each((index, element) => {
         if(cnt>=4) {return}
           const oneElement = $(element).find('a.ssrcss-zmz0hi-PromoLink.exn3ah91');
-          const title = $(element).find('p.ssrcss-1nzemmm-PromoHeadline.exn3ah96').text();
+          const title = $(element).find('h1.YSw5i').text();
 
           if (oneElement && oneElement.attr('href')) {
               if (title && !oneElement.attr('href').includes('/sounds/')) {
@@ -190,13 +190,17 @@ async function getIntPol() {
     const $ = cheerio.load(response.data);
 
     const allNews = $('article.sc-9636e898-0.dYtsiK');
+    // console.log(allNews)
     const newsLinks = [];
-    const newss = allNews.find('a.sc-2e6baa30-0.gILusN')
+    // const newss = allNews.find('a.sc-2e6baa30-0.gILusN')
+    const newss = allNews.find('div.sc-5c4cac2b-0.cZYdOf')
+    console.log(newss.text())
     const encounteredTitles = new Set();
 
     newss.each((index, element) => {
         const newsLink = $(element).attr('href')
         const title = $(element).find('h2.sc-4fedabc7-3.zTZri').text();
+        // console.log(newsLink, title)
 
         if (newsLink && title && newsLink.includes('/news/articles/') && !encounteredTitles.has(title)) {
             encounteredTitles.add(title);
@@ -360,11 +364,11 @@ async function getAllNews(){
   await getInternationalSportsNews()
 
 //   await getIntPol()
-  
-//   await getIndiaNews().then(()=>{
-//     console.log('Done summarizing...!')
-//     process.exit()
-//   })
+
+  await getIndiaNews().then(()=>{
+    console.log('Done summarizing...!')
+    process.exit()
+  })
 
   
 }

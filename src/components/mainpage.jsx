@@ -8,9 +8,14 @@ import axios from 'axios';
 
 
 const MainPage = ({user}) => {
+
+  
+  // console.log(formattedDate);
+
+
   const urlPrefix = 'https://news-summarizer-endpoint.vercel.app';
   const [language, setLanguage] = useState('en');
-  const [date, setDate] = useState('6-6-2024');
+  const [date, setDate] = useState('');
   const [items, setItems] = useState([{newsTitle:'Loading items...', newsSummary: ''}]);
 
   const [generalNews, setGeneralNews] = useState([])
@@ -50,13 +55,16 @@ async function saveUserInfo(){
 
   useEffect(() => {
 
+    const formattedDate = new Date().toISOString().split('T')[0];
+    console.log(formattedDate)
+    
     saveUserInfo()
     // console.log(date)
     setLoading(true)
-    axios.post(urlPrefix+'/getnews', {cat: category, dt:date}).then((res)=>{
+    axios.post(urlPrefix+'/getnews', {cat: category, dt:formattedDate}).then((res)=>{
         if(res.data.stat[0] == 'YERRER'){alert('Error fetching the data !')}
         else{
-            // console.log(res.data.general)
+            console.log(res.data.general)
             // setGeneralNews(res.data.general)
             setItems(res.data.general)
             setLoading(false)
@@ -64,13 +72,13 @@ async function saveUserInfo(){
     })
 
     if(language=='en'){
-      axios.post(urlPrefix+'/getnews', {cat: category, dt:date}).then((res)=>{
+      axios.post(urlPrefix+'/getnews', {cat: category, dt:formattedDate}).then((res)=>{
         if(res.data.stat[0] == 'YERRER'){alert('Error fetching the data !')}
         else{
             // console.log(res.data.general)
             // setGeneralNews(res.data.general)
             setItems(res.data.general)
-            setLoading(false)
+            setLoading(false) 
         }
     })
     }
@@ -103,14 +111,14 @@ async function saveUserInfo(){
                               onChange={(e) => handleChipClick(e.target.value)}
                             >
                               <option value="General">General</option>
-                              <option value="Politics">Politics</option>
-                              <option value="Sports">Sports</option>
+                              {/* <option value="Politics">Politics</option>
+                              <option value="Sports">Sports</option> */}
                             </select>
                         </div>
             :<div className={`flex gap-3 flex-wrap ${screen.width<400?'justify-center':'justify-between'}  w-80  mb-4`}>
           <Chip label="General" selected={selectedChip === 'General'} onClick={() => handleChipClick('General')} />
-          <Chip label="Politics" selected={selectedChip === 'Politics'} onClick={() => handleChipClick('Politics')} />
-          <Chip label="Sports" selected={selectedChip === 'Sports'} onClick={() => handleChipClick('Sports')} />
+          {/* <Chip label="Politics" selected={selectedChip === 'Politics'} onClick={() => handleChipClick('Politics')} />
+          <Chip label="Sports" selected={selectedChip === 'Sports'} onClick={() => handleChipClick('Sports')} /> */}
         </div>}  
         
         <div className="flex flex-wrap space-x-6 items-center justify-end">

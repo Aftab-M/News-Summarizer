@@ -2,7 +2,8 @@ const {GoogleGenerativeAI, GenerativeModel} = require("@google/generative-ai")
 const express = require('express')
 const app = express()
 const cors = require('cors')
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_KEY);
+// const genAI = new GoogleGenerativeAI(process.env.GEMINI_KEY);
+const genAI = new GoogleGenerativeAI('AIzaSyBxcscQ1qiX8pwECBYb7GbDC37B6BbkAVs');
 const port = 3000
 app.use(cors()) 
 app.use(express.json())
