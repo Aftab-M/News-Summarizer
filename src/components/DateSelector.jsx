@@ -10,10 +10,6 @@ const DateSelector = ({ setDate }) => {
     useEffect(() => {
       const today = new Date();
       const formattedDate = today.toISOString().split('T')[0];
-<<<<<<< HEAD
-      console.log('Got the date : ',selectedDate)
-=======
->>>>>>> b1a62dc3c95b1e9571a0a6cdd6b6f36dfb3f7044
       setSelectedDate(formattedDate);
     }, []);
 
